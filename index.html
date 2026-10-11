@@ -15,9 +15,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Reem+Kufi:wght@600&display=swap">
 <style>
-/* Layout: one-thumb app. Summary scrolls on top, a fixed action pad sits at the bottom within reach. */
+/* Layout: one-thumb app. Calm summary on top, three big daily actions fixed at the bottom, undo bar just above them. */
 :root {
-  --bg: #fbf5f2; --surface: #ffffff; --line: #efe2dc; --fg: #2b1f24; --muted: #7d6870;
+  --bg: #fbf5f2; --surface: #ffffff; --soft: #f5ebe6; --line: #efe2dc; --fg: #2b1f24; --muted: #7d6870;
   --nursing: #c9566c; --bottle: #d9853b; --pump: #8a6cc4; --diaper: #2f978d; --sleep: #5466c4; --warn: #b3392b;
   --on-color: #ffffff; --tint: 0.13;
   --font-body: "IBM Plex Sans Arabic", "Geeza Pro", "SF Arabic", system-ui, sans-serif;
@@ -25,131 +25,161 @@
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #000000; --surface: #0e0c0d; --line: #1d191b; --fg: #d9cfd2; --muted: #85777c;
+  --bg: #000000; --surface: #0e0c0d; --soft: #141113; --line: #1d191b; --fg: #d9cfd2; --muted: #85777c;
   --nursing: #8f4554; --bottle: #8c5a2f; --pump: #5e4c86; --diaper: #2a6a64; --sleep: #3c4884; --warn: #b05a4e;
   --on-color: #eadfe2; --tint: 0.22; color-scheme: dark;
 } }
 :root[data-theme="dark"] {
-  --bg: #000000; --surface: #0e0c0d; --line: #1d191b; --fg: #d9cfd2; --muted: #85777c;
+  --bg: #000000; --surface: #0e0c0d; --soft: #141113; --line: #1d191b; --fg: #d9cfd2; --muted: #85777c;
   --nursing: #8f4554; --bottle: #8c5a2f; --pump: #5e4c86; --diaper: #2a6a64; --sleep: #3c4884; --warn: #b05a4e;
   --on-color: #eadfe2; --tint: 0.22; color-scheme: dark;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { background: var(--bg); color: var(--fg); }
-body { font-family: var(--font-body); font-size: 17px; line-height: 1.5; margin: 0; }
+body { font-family: var(--font-body); font-size: 18px; line-height: 1.5; margin: 0; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; border: 0; background: none; padding: 0; }
-button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--sleep); outline-offset: 2px; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--sleep); outline-offset: 2px; }
 .num { font-variant-numeric: tabular-nums; }
 .clk { direction: ltr; unicode-bidi: isolate; display: inline-block; }
-.bigclock.clk { display: block; }
-.linkbtn svg { width: 22px; height: 22px; flex: none; }
+.tintbg { background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), var(--surface)); }
 
-#app { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 12px 300px; display: flex; flex-direction: column; gap: 14px; }
-.head { display: flex; align-items: flex-start; gap: 8px; }
+#app { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 14px 280px; display: flex; flex-direction: column; gap: 16px; }
+.head { display: flex; align-items: center; gap: 8px; }
 .head .who { flex: 1; min-width: 0; }
-.hello { color: var(--muted); font-size: 15px; margin: 0; }
-.baby { font-family: var(--font-display); font-size: 40px; line-height: 1.2; margin: 0; }
+.hello { color: var(--muted); font-size: 16px; margin: 0; }
+.baby { font-family: var(--font-display); font-size: 38px; line-height: 1.15; margin: 0; }
 .age { color: var(--muted); font-size: 15px; margin: 0; }
-.iconbtn { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; color: var(--fg); background: var(--surface); border: 1px solid var(--line); }
-.iconbtn svg { width: 24px; height: 24px; }
+.iconbtn { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; color: var(--fg); background: var(--surface); border: 1px solid var(--line); flex: none; }
+.iconbtn svg { width: 22px; height: 22px; }
 
-.banner { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 20px; background: var(--surface); border: 2px solid var(--c); width: 100%; text-align: start; }
-.banner .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--c); animation: pulse 1.6s ease-in-out infinite; flex: none; }
-.banner .txt { flex: 1; min-width: 0; }
-.banner b { display: block; font-size: 17px; }
-.banner small { color: var(--muted); font-size: 14px; }
-.banner .clock { font-size: 26px; font-weight: 700; }
+/* Hero: what a tired parent needs first */
+.hero { border-radius: 26px; padding: 18px; display: flex; flex-direction: column; gap: 6px; --c: var(--nursing); }
+.hero .k { font-size: 15px; font-weight: 700; color: var(--c); margin: 0; }
+.hero .v { font-size: 30px; font-weight: 700; line-height: 1.25; margin: 0; }
+.hero .s { margin: 0; color: var(--muted); font-size: 16px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 99px; background: var(--c); color: var(--on-color); font-weight: 700; font-size: 15px; }
+
+.live { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 22px; width: 100%; text-align: start; border: 2px solid var(--c); }
+.live .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--c); animation: pulse 1.6s ease-in-out infinite; flex: none; }
+.live .txt { flex: 1; min-width: 0; }
+.live b { display: block; }
+.live small { color: var(--muted); font-size: 14px; }
+.live .clock { font-size: 26px; font-weight: 700; }
 @keyframes pulse { 50% { opacity: .35; } }
-@media (prefers-reduced-motion: reduce) { .banner .dot { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .live .dot { animation: none; } }
 
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 14px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.card .lbl { font-size: 14px; font-weight: 700; color: var(--c); }
-.card .val { font-size: 22px; font-weight: 700; line-height: 1.3; }
-.card .sub { font-size: 13.5px; color: var(--muted); min-height: 1.5em; }
+.today { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; display: grid; grid-template-columns: repeat(3, 1fr); }
+.today div { padding: 12px 8px; text-align: center; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.today div + div { border-inline-start: 1px solid var(--line); }
+.today b { font-size: 24px; line-height: 1.2; }
+.today span { font-size: 13.5px; color: var(--muted); }
+.today em { font-style: normal; font-size: 12.5px; color: var(--muted); }
 
-.linkbtn { width: 100%; padding: 14px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; display: flex; justify-content: center; align-items: center; gap: 8px; }
-.note { color: var(--muted); font-size: 13.5px; text-align: center; margin: 0; }
+.sec { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 0; }
+.sec h3 { margin: 0; font-size: 17px; }
+.sec button { color: var(--sleep); font-weight: 700; font-size: 15px; min-height: 40px; }
 
-.pad { position: fixed; inset-inline: 0; bottom: 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; }
-.pad-inner { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.big { min-height: 76px; border-radius: 22px; background: var(--c); color: var(--on-color); font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 8px; transition: transform .1s; }
-.big:active { transform: scale(.97); }
+.rows { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; width: 100%; text-align: start; border-bottom: 1px solid var(--line); min-height: 64px; }
+.row:last-child { border-bottom: 0; }
+.row .ic { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--c); flex: none; }
+.row .ic svg { width: 20px; height: 20px; }
+.row .mid { flex: 1; min-width: 0; }
+.row .mid b { display: block; font-weight: 700; }
+.row .mid span { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+.row .when { color: var(--muted); font-size: 14px; flex: none; text-align: end; }
+.row .edit { font-size: 13px; color: var(--sleep); font-weight: 700; display: block; }
+.empty { text-align: center; color: var(--muted); padding: 28px 12px; margin: 0; }
+
+/* Bottom action pad */
+.pad { position: fixed; inset-inline: 0; bottom: 0; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; }
+.pad-inner { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.act { grid-column: span 2; min-height: 104px; border-radius: 26px; background: var(--c); color: var(--on-color); font-size: 19px; font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 8px 4px; transition: transform .1s; }
+.act svg { width: 32px; height: 32px; }
+.act.small { grid-column: span 3; min-height: 56px; flex-direction: row; font-size: 17px; background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), var(--surface)); color: var(--c); }
+.act.small svg { width: 24px; height: 24px; }
+.act:active, .big:active { transform: scale(.96); }
+
+.big { min-height: 68px; border-radius: 22px; background: var(--c); color: var(--on-color); font-size: 19px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 8px; width: 100%; transition: transform .1s; }
 .big svg { width: 26px; height: 26px; flex: none; }
-.big.soft { background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), transparent); color: var(--c); }
-.big.wide { grid-column: 1 / -1; min-height: 54px; font-size: 17px; }
+.big.soft { background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), var(--surface)); color: var(--c); }
 .big[disabled] { opacity: .45; }
+.ghost { width: 100%; min-height: 50px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.ghost svg { width: 20px; height: 20px; }
+.danger { color: var(--warn); min-height: 48px; font-weight: 700; width: 100%; }
+
+/* Undo bar */
+.undo { position: fixed; inset-inline: 16px; bottom: calc(var(--padh, 190px) + 10px); z-index: 30; max-width: 528px; margin: 0 auto; display: flex; align-items: center; gap: 10px; background: var(--fg); color: var(--bg); border-radius: 18px; padding: 8px 8px 8px 8px; padding-inline-start: 16px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+.undo span { flex: 1; min-width: 0; font-weight: 700; font-size: 16px; }
+.undo button { min-height: 48px; padding-inline: 18px; border-radius: 13px; background: color-mix(in srgb, var(--bg) 18%, transparent); color: var(--bg); font-weight: 700; display: flex; align-items: center; gap: 6px; }
+.undo button svg { width: 20px; height: 20px; }
 
 /* Sheets */
 .sheet { position: fixed; inset: 0; background: var(--bg); z-index: 10; display: flex; flex-direction: column; }
-.sheet-bar { display: flex; align-items: center; gap: 8px; padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 8px; border-bottom: 1px solid var(--line); }
-.sheet-bar h2 { flex: 1; margin: 0; font-size: 18px; text-align: center; }
-.sheet-bar .side { width: 72px; }
-.sheet-bar button { min-height: 44px; padding-inline: 8px; color: var(--sleep); font-weight: 500; }
-.sheet-body { flex: 1; overflow-y: auto; padding-inline: 16px; padding-block: 16px 24px; display: flex; flex-direction: column; gap: 16px; max-width: 560px; width: 100%; margin: 0 auto; }
-.sheet-foot { padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); max-width: 560px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
-.section-title { font-weight: 700; color: var(--muted); font-size: 15px; margin: 0; }
+.sheet-bar { display: flex; align-items: center; gap: 8px; padding: calc(8px + env(safe-area-inset-top, 0px)) 10px 8px; border-bottom: 1px solid var(--line); }
+.sheet-bar h2 { flex: 1; margin: 0; font-size: 19px; text-align: center; }
+.sheet-bar .side { width: 84px; display: flex; }
+.sheet-bar button { min-height: 44px; padding-inline: 10px; color: var(--sleep); font-weight: 700; }
+.sheet-body { flex: 1; overflow-y: auto; padding-inline: 16px; padding-block: 18px 24px; display: flex; flex-direction: column; gap: 16px; max-width: 560px; width: 100%; margin: 0 auto; }
+.sheet-foot { padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); max-width: 560px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 4px; }
+.label { font-weight: 700; color: var(--muted); font-size: 15px; margin: 0; }
 
 .hint { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; font-weight: 500; margin: 0; }
-.bigclock { font-size: 64px; font-weight: 700; text-align: center; line-height: 1.1; margin: 4px 0; }
+.bigclock { font-size: 66px; font-weight: 700; text-align: center; line-height: 1.1; margin: 0; display: block; }
 .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.side-btn { min-height: 200px; border-radius: 28px; background: color-mix(in srgb, var(--nursing) calc(var(--tint) * 100%), transparent); color: var(--nursing); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 3px solid transparent; }
+.side-btn { min-height: 210px; border-radius: 30px; background: color-mix(in srgb, var(--nursing) calc(var(--tint) * 100%), var(--surface)); color: var(--nursing); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 3px solid transparent; }
 .side-btn.on { background: var(--nursing); color: var(--on-color); }
 .side-btn.next { border-color: var(--nursing); }
-.side-btn svg { width: 34px; height: 34px; }
-.side-btn .nm { font-size: 24px; font-weight: 700; }
+.side-btn svg { width: 36px; height: 36px; }
+.side-btn .nm { font-size: 25px; font-weight: 700; }
 .side-btn .t { font-size: 20px; }
 .chip { font-size: 13px; font-weight: 700; padding: 2px 12px; border-radius: 99px; background: color-mix(in srgb, currentColor 18%, transparent); }
 .subtle { color: var(--muted); text-align: center; font-size: 15px; margin: 0; }
-.danger { color: var(--warn); min-height: 44px; font-weight: 500; width: 100%; }
+.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 4px; }
-.seg button { min-height: 48px; border-radius: 12px; font-weight: 700; }
-.seg button.on { background: var(--c, var(--fg)); color: var(--on-color); }
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 5px; }
+.seg button { min-height: 50px; border-radius: 14px; font-weight: 700; }
+.seg button.on { background: var(--c); color: var(--on-color); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips button { min-height: 46px; padding-inline: 16px; border-radius: 99px; font-weight: 700; background: var(--surface); border: 1px solid var(--line); }
+.chips button.on { background: var(--c); color: var(--on-color); border-color: var(--c); }
 
-.stepper { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 12px; }
-.stepper .round { width: 72px; height: 72px; border-radius: 50%; background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), transparent); color: var(--c); display: grid; place-items: center; flex: none; }
+.stepper { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 12px; }
+.stepper .round { width: 70px; height: 70px; border-radius: 50%; background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), var(--surface)); color: var(--c); display: grid; place-items: center; flex: none; }
 .stepper .round svg { width: 30px; height: 30px; }
 .stepper .mid { flex: 1; text-align: center; min-width: 0; }
 .stepper .amt { font-size: 44px; font-weight: 700; line-height: 1.1; display: block; }
 .stepper .unit { color: var(--muted); font-weight: 500; }
 .quick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-.quick button { min-height: 48px; border-radius: 14px; font-weight: 700; background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), transparent); color: var(--c); }
+.quick button { min-height: 50px; border-radius: 16px; font-weight: 700; background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), var(--surface)); color: var(--c); }
 .quick button.on { background: var(--c); color: var(--on-color); }
 
-.field { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.field { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 10px 14px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .field label { font-weight: 700; flex: 1; min-width: 6em; }
-.field input, .field select { background: transparent; border: 0; min-height: 40px; text-align: end; max-width: 100%; }
+.field input { background: transparent; border: 0; min-height: 42px; text-align: end; max-width: 100%; }
 .field input[type="datetime-local"], .field input[type="date"] { direction: ltr; }
-textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; resize: vertical; }
-.field.col { flex-direction: column; align-items: stretch; }
+.field.col { flex-direction: column; align-items: stretch; gap: 2px; }
 .field.col input { text-align: start; }
+textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; resize: vertical; }
 
+.kinds { display: flex; flex-direction: column; gap: 12px; }
+.kind { min-height: 92px; border-radius: 26px; display: flex; align-items: center; gap: 16px; padding-inline: 22px; font-size: 22px; font-weight: 700; background: color-mix(in srgb, var(--diaper) calc(var(--tint) * 100%), var(--surface)); color: var(--diaper); width: 100%; text-align: start; }
+.kind svg { width: 34px; height: 34px; flex: none; }
+.kind small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); }
+.kind.on { background: var(--diaper); color: var(--on-color); }
+.kind.on small { color: var(--on-color); opacity: .8; }
 .swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.swatch { min-height: 84px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 14px; font-weight: 500; }
+.swatch { min-height: 84px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 14px; font-weight: 500; }
 .swatch i { width: 34px; height: 34px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--fg) 25%, transparent); }
-.swatch.on { border: 2px solid var(--diaper); background: color-mix(in srgb, var(--diaper) calc(var(--tint) * 100%), transparent); }
-.chips3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.chips3 button { min-height: 48px; border-radius: 14px; font-weight: 700; background: color-mix(in srgb, var(--diaper) calc(var(--tint) * 100%), transparent); color: var(--diaper); }
-.chips3 button.on { background: var(--diaper); color: var(--on-color); }
+.swatch.on { border: 2px solid var(--diaper); background: color-mix(in srgb, var(--diaper) calc(var(--tint) * 100%), var(--surface)); }
 .warnbox { border: 1px solid var(--warn); color: var(--warn); border-radius: 16px; padding: 12px 14px; font-weight: 500; margin: 0; }
 
 .day { display: flex; flex-direction: column; gap: 8px; }
 .day-h { display: flex; flex-direction: column; padding-inline: 4px; }
 .day-h b { font-size: 17px; }
 .day-h span { color: var(--muted); font-size: 14px; }
-.rows { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-.row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; width: 100%; text-align: start; border-bottom: 1px solid var(--line); }
-.row:last-child { border-bottom: 0; }
-.row .ic { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), transparent); color: var(--c); flex: none; }
-.row .ic svg { width: 20px; height: 20px; }
-.row .mid { flex: 1; min-width: 0; }
-.row .mid b { display: block; font-weight: 700; }
-.row .mid span { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
-.row time { color: var(--muted); font-size: 14px; flex: none; }
-.empty { text-align: center; color: var(--muted); padding: 40px 12px; }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(14px + env(safe-area-inset-top, 0px)); background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-weight: 700; z-index: 20; font-size: 15px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(70px + env(safe-area-inset-top, 0px)); background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-weight: 700; z-index: 40; font-size: 15px; max-width: calc(100% - 32px); text-align: center; }
 </style>
 </head>
 <body>
@@ -158,6 +188,7 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
 <div id="app" dir="rtl" lang="ar"></div>
 <div id="pad" class="pad" dir="rtl" lang="ar"></div>
 <div id="sheet" dir="rtl" lang="ar" hidden></div>
+<div id="undo" class="undo" dir="rtl" lang="ar" role="status" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
 
 <script>
@@ -175,34 +206,55 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     bottle: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 2h4v2.2l1.6 2.3c.3.4.4.9.4 1.4V20a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V7.9c0-.5.1-1 .4-1.4L10 4.2V2zm-1 9v2h6v-2H9z"/></svg>',
     pump: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7.5s-3 3.3-3 5.2a3 3 0 0 0 6 0c0-1.9-3-5.2-3-5.2z" fill="currentColor" stroke="none"/></svg>',
     gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
-    list: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1" fill="currentColor"/><circle cx="3.5" cy="12" r="1" fill="currentColor"/><circle cx="3.5" cy="18" r="1" fill="currentColor"/></svg>',
     play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>',
     pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>',
     plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
     minus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14"/></svg>',
     check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    undo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7l5 5-5 5"/><path d="M20 12H9a5 5 0 0 0 0 10h2"/></svg>',
+    reset: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.3-5.6L4 8.7"/><path d="M4 4v4.7h4.7"/></svg>',
+    swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 4l3 3-3 3M20 7H8M7 20l-3-3 3-3M4 17h12"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
     circle: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>',
     half: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg>'
   };
 
   // ---------- Storage (on this phone only) ----------
-  const KEY = "malik-care-v1";
+  const KEY = "malik-care-v1", UKEY = "malik-care-undo";
   const DEFAULT = { v: 1, feeds: [], diapers: [], sleeps: [],
     settings: { baby: "مالك", mother: "نشوى", birth: "", unit: "ml", theme: "system" } };
-  let S;
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  function normalize(d) {
+    return Object.assign({}, clone(DEFAULT), d, { settings: Object.assign({}, DEFAULT.settings, (d && d.settings) || {}) });
+  }
   function load() {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) {
-        const d = JSON.parse(raw);
-        return Object.assign({}, DEFAULT, d, { settings: Object.assign({}, DEFAULT.settings, d.settings || {}) });
-      }
-    } catch (e) {}
-    return JSON.parse(JSON.stringify(DEFAULT));
+    try { const raw = localStorage.getItem(KEY); if (raw) return normalize(JSON.parse(raw)); } catch (e) {}
+    return clone(DEFAULT);
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
-  S = load();
+  let S = load();
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) {}
+
+  // Undo: every change first saves a snapshot, so any mistake can be reversed.
+  let undoStack = [];
+  try { undoStack = JSON.parse(localStorage.getItem(UKEY) || "[]"); } catch (e) { undoStack = []; }
+  function saveUndo() { try { localStorage.setItem(UKEY, JSON.stringify(undoStack.slice(-15))); } catch (e) {} }
+  function change(label, fn) {
+    undoStack.push({ label, data: JSON.stringify(S) });
+    if (undoStack.length > 15) undoStack.shift();
+    fn();
+    save(); saveUndo();
+    showUndo(label);
+  }
+  function undo() {
+    const last = undoStack.pop(); if (!last) return;
+    try { S = normalize(JSON.parse(last.data)); } catch (e) { return; }
+    save(); saveUndo(); applyTheme();
+    hideUndo();
+    toast("تم التراجع عن: " + last.label);
+    if (sheet) { if (sheet.name === "edit" && !findEntry(sheet.type, sheet.id)) closeSheet(); else renderSheet(); }
+    renderHome();
+  }
 
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   const now = () => Date.now();
@@ -225,7 +277,7 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     if (!m) return dg(h) + " س";
     return dg(h) + " س " + dg(m) + " د";
   }
-  const ago = (t) => "منذ " + dur((now() - t) / 1000);
+  const ago = (t) => { const s = (now() - t) / 1000; return s < 60 ? "الآن" : "منذ " + dur(s); };
   let timeFmt, dayFmt;
   try {
     timeFmt = new Intl.DateTimeFormat("ar-u-nu-arab", { hour: "numeric", minute: "2-digit" });
@@ -235,11 +287,11 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     dayFmt = { format: (d) => dg(d.toDateString()) };
   }
   const tm = (t) => timeFmt.format(new Date(t));
-  function num(v) { return dg(Math.round(v * 10) / 10); }
+  const num = (v) => dg(Math.round(v * 10) / 10);
   const unitInfo = () => S.settings.unit === "oz"
-    ? { k: "oz", name: "أونصة", step: 0.5, quick: [1, 2, 3, 4, 5], from: (ml) => ml / 29.5735, to: (v) => v * 29.5735 }
-    : { k: "ml", name: "مل", step: 10, quick: [30, 60, 90, 120, 150], from: (ml) => ml, to: (v) => v };
-  const vol = (ml) => { const u = unitInfo(); return num(u.from(ml)) + " " + u.name; };
+    ? { name: "أونصة", step: 0.5, quick: [1, 2, 3, 4, 5], from: (ml) => ml / 29.5735, to: (v) => v * 29.5735 }
+    : { name: "مل", step: 10, quick: [30, 60, 90, 120, 150], from: (ml) => ml, to: (v) => v };
+  const vol = (ml) => { const u = unitInfo(); return num(u.from(ml || 0)) + " " + u.name; };
   function counted(n, one, two, few, many) {
     if (n === 1) return one; if (n === 2) return two;
     if (n >= 3 && n <= 10) return dg(n) + " " + few;
@@ -260,6 +312,11 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     let months = (n.getFullYear() - a.getFullYear()) * 12 + n.getMonth() - a.getMonth();
     if (n.getDate() < a.getDate()) months--;
     return "عمره " + counted(months, "شهر واحد", "شهران", "أشهر", "شهراً");
+  }
+  function greeting() {
+    const h = new Date().getHours();
+    const g = h >= 4 && h < 12 ? "صباح الخير" : h < 18 && h >= 12 ? "مساء الخير" : "ليلة هادئة";
+    return S.settings.mother ? g + " يا " + S.settings.mother : g;
   }
   function dayTitle(t) {
     const today = startOfDay(now());
@@ -301,8 +358,8 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     if (f.run && f.since) { const e = Math.max(0, (t - f.since) / 1000); if (f.run === "right") f.r += e; else f.l += e; }
     f.run = null; f.since = null;
   }
-  function lastFinishedSide() {
-    const f = S.feeds.filter((x) => x.kind === "nursing" && x.end != null && x.last).sort((a, b) => b.start - a.start)[0];
+  function lastNursingSide(finishedOnly) {
+    const f = S.feeds.filter((x) => x.kind === "nursing" && x.last && (!finishedOnly || x.end != null)).sort((a, b) => b.start - a.start)[0];
     return f ? f.last : null;
   }
   function dayStats(day) {
@@ -315,16 +372,44 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     return { feeds, diapers, sleep, bottle,
       wet: diapers.filter((d) => d.kind !== "dirty").length, dirty: diapers.filter((d) => d.kind !== "wet").length };
   }
+  function allItems() {
+    return [].concat(
+      S.feeds.map((e) => ({ type: "feed", e, t: e.start })),
+      S.diapers.map((e) => ({ type: "diaper", e, t: e.t })),
+      S.sleeps.map((e) => ({ type: "sleep", e, t: e.start }))
+    ).sort((a, b) => b.t - a.t);
+  }
+  function findEntry(type, id) {
+    const list = type === "feed" ? S.feeds : type === "diaper" ? S.diapers : S.sleeps;
+    return list.find((x) => x.id === id);
+  }
 
-  // ---------- Toast ----------
-  let toastTimer;
+  // ---------- Toast & undo bar ----------
+  let toastTimer, undoTimer;
   function toast(msg) {
     const el = document.getElementById("toast");
     el.textContent = msg; el.hidden = false;
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => (el.hidden = true), 1800);
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => (el.hidden = true), 2000);
+  }
+  function showUndo(label) {
+    const el = document.getElementById("undo");
+    el.innerHTML = '<span>' + esc(label) + '</span><button data-act="undo">' + I.undo + 'تراجع</button>';
+    el.hidden = false; placeUndo();
+    clearTimeout(undoTimer); undoTimer = setTimeout(hideUndo, 7000);
+  }
+  function hideUndo() { document.getElementById("undo").hidden = true; }
+  function placeUndo() {
+    const foot = sheet ? document.querySelector("#sheet .sheet-foot") : document.getElementById("pad");
+    const h = foot ? foot.getBoundingClientRect().height : 0;
+    document.getElementById("undo").style.setProperty("--padh", h + "px");
   }
 
   // ---------- Theme ----------
+  function isDark() {
+    const t = S.settings.theme;
+    if (t === "dark") return true; if (t === "light") return false;
+    return !!(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches);
+  }
   function applyTheme() {
     const t = S.settings.theme;
     if (t === "dark" || t === "light") document.documentElement.setAttribute("data-theme", t);
@@ -332,84 +417,100 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", isDark() ? "#000000" : "#fbf5f2");
   }
-  function isDark() {
-    const t = S.settings.theme;
-    if (t === "dark") return true; if (t === "light") return false;
-    return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
-  }
 
   // ---------- Home ----------
+  function rowInfo(type, e) {
+    if (type === "feed") {
+      if (e.kind === "nursing") return { c: "var(--nursing)", i: I.heart, title: "رضاعة طبيعية", sub: e.end == null ? "جارية الآن" : "يمين " + dur(e.r) + " · يسار " + dur(e.l) };
+      if (e.kind === "bottle") return { c: "var(--bottle)", i: I.bottle, title: "رضّاعة", sub: vol(e.ml) + " · " + CONTENT[e.content || "breastMilk"] };
+      return { c: "var(--pump)", i: I.pump, title: "شفط الحليب", sub: "يمين " + vol(e.rml) + " · يسار " + vol(e.lml) };
+    }
+    if (type === "diaper") {
+      const parts = [colorName(e.color), consName(e.cons), e.note ? esc(e.note) : ""].filter(Boolean);
+      return { c: "var(--diaper)", i: DICON[e.kind] || I.drop, title: "حفاض " + DKIND[e.kind], sub: parts.join(" · ") };
+    }
+    return { c: "var(--sleep)", i: I.moon, title: "نوم", sub: e.end == null ? "نائم الآن" : dur((e.end - e.start) / 1000) + " · حتى " + tm(e.end) };
+  }
+  function rowHtml(it, showAgo) {
+    const r = rowInfo(it.type, it.e);
+    return '<button class="row" style="--c:' + r.c + '" data-act="edit" data-type="' + it.type + '" data-id="' + it.e.id + '">' +
+      '<span class="ic tintbg">' + r.i + '</span><span class="mid"><b>' + r.title + '</b>' + (r.sub ? '<span>' + r.sub + '</span>' : '') + '</span>' +
+      '<span class="when num">' + (showAgo ? ago(it.t) : tm(it.t)) + '<span class="edit">تعديل</span></span></button>';
+  }
+
   function renderHome() {
     const t = now(), st = dayStats(startOfDay(t));
     const nurse = activeNursing(), sl = activeSleep();
     const lastFeed = S.feeds.filter((f) => f.kind !== "pump").sort((a, b) => b.start - a.start)[0];
-    const lastSide = (S.feeds.filter((f) => f.kind === "nursing" && f.last).sort((a, b) => b.start - a.start)[0] || {}).last;
-    const lastSleepEnd = sl ? null : Math.max(0, ...S.sleeps.filter((s) => s.end != null).map((s) => s.end));
+    const lastSide = lastNursingSide(false);
     const age = ageText();
     let h = '<header class="head"><div class="who">' +
-      '<p class="hello">مرحباً ' + esc(S.settings.mother) + '</p>' +
+      '<p class="hello">' + esc(greeting()) + '</p>' +
       '<h1 class="baby">' + esc(S.settings.baby) + '</h1>' +
       (age ? '<p class="age">' + age + '</p>' : '') + '</div>' +
-      '<button class="iconbtn" data-act="toggle-night" aria-label="الوضع الليلي">' + (isDark() ? I.sun : I.moon) + '</button>' +
+      '<button class="iconbtn" data-act="toggle-night" aria-label="' + (isDark() ? "الوضع النهاري" : "الوضع الليلي") + '">' + (isDark() ? I.sun : I.moon) + '</button>' +
       '<button class="iconbtn" data-act="open" data-sheet="settings" aria-label="الإعدادات">' + I.gear + '</button></header>';
+
     if (nurse) {
-      h += '<button class="banner" style="--c:var(--nursing)" data-act="open" data-sheet="nursing">' +
+      h += '<button class="live tintbg" style="--c:var(--nursing)" data-act="open" data-sheet="nursing">' +
         '<span class="dot"></span><span class="txt"><b>' + (nurse.run ? "رضاعة من " + SIDE[nurse.run] : "الرضاعة متوقفة مؤقتاً") + '</b>' +
-        '<small>بدأت ' + tm(nurse.start) + '</small></span><span class="clock num clk" data-tick="nurse">' + clock(totalSecs(nurse, t)) + '</span></button>';
+        '<small>اضغطي لفتح المؤقت</small></span><span class="clock num clk" data-tick="nurse">' + clock(totalSecs(nurse, t)) + '</span></button>';
     }
     if (sl) {
-      h += '<div class="banner" style="--c:var(--sleep)"><span class="dot"></span><span class="txt"><b>' + esc(S.settings.baby) + ' نائم</b>' +
-        '<small>نام ' + tm(sl.start) + '</small></span><span class="clock num clk" data-tick="sleep">' + clock((t - sl.start) / 1000) + '</span></div>';
+      h += '<div class="live tintbg" style="--c:var(--sleep)"><span class="dot"></span><span class="txt"><b>' + esc(S.settings.baby) + ' نائم</b>' +
+        '<small>منذ ' + tm(sl.start) + '</small></span><span class="clock num clk" data-tick="sleep">' + clock((t - sl.start) / 1000) + '</span></div>';
     }
-    h += '<section class="grid">' +
-      card("آخر رضعة", "var(--nursing)", lastFeed ? ago(lastFeed.start) : "لا يوجد بعد", lastSide ? "آخر جهة: " + SIDE[lastSide] : "") +
-      card("الرضعات اليوم", "var(--bottle)", dg(st.feeds.length), st.bottle > 0 ? "رضّاعة: " + vol(st.bottle) : "") +
-      card("الحفاضات اليوم", "var(--diaper)", dg(st.diapers.length), dg(st.wet) + " مبلل · " + dg(st.dirty) + " متسخ") +
-      card("النوم اليوم", "var(--sleep)", dur(st.sleep), sl ? "نائم الآن" : (lastSleepEnd ? "مستيقظ منذ " + dur((t - lastSleepEnd) / 1000) : "")) +
-      '</section>';
-    h += '<button class="linkbtn" data-act="open" data-sheet="log">' + I.list + ' سجل الأيام</button>';
-    h += '<p class="note">البيانات محفوظة على هذا الهاتف فقط.</p>';
+    if (!nurse) {
+      h += '<section class="hero tintbg"><p class="k">آخر رضعة</p><p class="v num">' + (lastFeed ? ago(lastFeed.start) : "لم تُسجَّل بعد") + '</p>' +
+        (lastSide ? '<p class="s">الجهة التالية: <span class="pill">' + SIDE[other(lastSide)] + '</span></p>' : '<p class="s">اضغطي «رضاعة» بالأسفل للبدء</p>') + '</section>';
+    }
+    h += '<section class="today" aria-label="ملخص اليوم">' +
+      '<div><b class="num">' + dg(st.feeds.length) + '</b><span>رضعات اليوم</span><em>' + (st.bottle > 0 ? vol(st.bottle) : "&nbsp;") + '</em></div>' +
+      '<div><b class="num">' + dg(st.diapers.length) + '</b><span>حفاضات</span><em>' + dg(st.wet) + ' مبلل · ' + dg(st.dirty) + ' متسخ</em></div>' +
+      '<div><b class="num">' + (st.sleep >= 60 ? dur(st.sleep) : dg(0)) + '</b><span>نوم اليوم</span><em>&nbsp;</em></div></section>';
+
+    const recent = allItems().slice(0, 4);
+    h += '<div class="sec"><h3>آخر ما سجّلتِه</h3><button data-act="open" data-sheet="log">كل السجل</button></div>';
+    h += recent.length ? '<div class="rows">' + recent.map((it) => rowHtml(it, true)).join("") + '</div>'
+      : '<p class="empty">لا شيء بعد. ابدئي بالأزرار الكبيرة في الأسفل، وأي خطأ يمكن التراجع عنه.</p>';
+    if (undoStack.length) h += '<button class="ghost" data-act="undo">' + I.undo + 'تراجع عن: ' + esc(undoStack[undoStack.length - 1].label) + '</button>';
     document.getElementById("app").innerHTML = h;
 
     document.getElementById("pad").innerHTML = '<div class="pad-inner">' +
-      '<button class="big" style="--c:var(--nursing)" data-act="open" data-sheet="nursing">' + I.heart + (nurse ? "الرضاعة جارية" : "رضاعة طبيعية") + '</button>' +
-      '<button class="big" style="--c:var(--diaper)" data-act="open" data-sheet="diaper">' + I.drop + 'حفاض</button>' +
-      '<button class="big" style="--c:var(--sleep)" data-act="toggle-sleep">' + (sl ? I.sun + "استيقظ" : I.moon + "نام") + '</button>' +
-      '<button class="big" style="--c:var(--bottle)" data-act="open" data-sheet="bottle">' + I.bottle + 'رضّاعة</button>' +
-      '<button class="big soft wide" style="--c:var(--pump)" data-act="open" data-sheet="pump">' + I.pump + 'شفط الحليب</button></div>';
-  }
-  function card(lbl, c, val, sub) {
-    return '<div class="card" style="--c:' + c + '"><span class="lbl">' + lbl + '</span><span class="val num">' + val + '</span><span class="sub">' + (sub || "") + '</span></div>';
+      '<button class="act" style="--c:var(--nursing)" data-act="open" data-sheet="nursing">' + I.heart + (nurse ? "المؤقت" : "رضاعة") + '</button>' +
+      '<button class="act" style="--c:var(--diaper)" data-act="open" data-sheet="diaper">' + I.drop + 'حفاض</button>' +
+      '<button class="act" style="--c:var(--sleep)" data-act="toggle-sleep">' + (sl ? I.sun + "استيقظ" : I.moon + "نام") + '</button>' +
+      '<button class="act small" style="--c:var(--bottle)" data-act="open" data-sheet="bottle">' + I.bottle + 'رضّاعة</button>' +
+      '<button class="act small" style="--c:var(--pump)" data-act="open" data-sheet="pump">' + I.pump + 'شفط</button></div>';
+    if (!document.getElementById("undo").hidden) placeUndo();
   }
 
   // ---------- Sheets ----------
-  let sheet = null;   // { name, ...params }
-  let D = {};         // draft values for the open sheet
-  let confirmKey = null, confirmTimer;
+  let sheet = null, D = {}, confirmKey = null, confirmTimer;
 
   function openSheet(name, params) {
     sheet = Object.assign({ name }, params || {});
-    D = initDraft(sheet);
-    renderSheet();
+    D = initDraft(sheet); hideUndo();
     const el = document.getElementById("sheet");
-    el.hidden = false;
-    const body = el.querySelector(".sheet-body"); if (body) body.scrollTop = 0;
+    el.innerHTML = ""; renderSheet(); el.hidden = false;
+    if (!document.getElementById("undo").hidden) placeUndo();
   }
-  function closeSheet() { sheet = null; D = {}; document.getElementById("sheet").hidden = true; document.getElementById("sheet").innerHTML = ""; renderHome(); }
-
+  function closeSheet() {
+    sheet = null; D = {}; confirmKey = null;
+    const el = document.getElementById("sheet"); el.hidden = true; el.innerHTML = "";
+    renderHome();
+  }
   function initDraft(s) {
-    const t = toLocalInput(now());
     switch (s.name) {
-      case "bottle": return { content: "breastMilk", ml: 60, time: t };
-      case "pump": return { rml: 0, lml: 0, mins: 15, time: t };
-      case "diaper": return { kind: null, color: null, cons: null, note: "", time: t };
-      case "addsleep": return { start: toLocalInput(now() - 3600000), end: t };
+      case "bottle": return { content: "breastMilk", ml: 60, when: 0 };
+      case "pump": return { rml: 0, lml: 0, mins: 15, when: 0 };
+      case "diaper": return { kind: null, color: null, cons: null, note: "", when: 0 };
+      case "addsleep": return { start: toLocalInput(now() - 3600000), end: toLocalInput(now()) };
       case "settings": return Object.assign({}, S.settings, { restore: "" });
       case "edit": {
         const e = findEntry(s.type, s.id); if (!e) return {};
         const d = Object.assign({}, e);
-        if (s.type === "diaper") d.time = toLocalInput(e.t);
-        else d.time = toLocalInput(e.start);
+        d.time = toLocalInput(s.type === "diaper" ? e.t : e.start);
         if (s.type === "sleep" && e.end != null) d.endTime = toLocalInput(e.end);
         if (s.type === "feed" && e.kind === "nursing") { d.rmin = Math.round(e.r / 60); d.lmin = Math.round(e.l / 60); }
         if (s.type === "feed" && e.kind === "pump") d.mins = Math.round(((e.end || e.start) - e.start) / 60000);
@@ -418,24 +519,37 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
       default: return {};
     }
   }
-  function findEntry(type, id) {
-    const list = type === "feed" ? S.feeds : type === "diaper" ? S.diapers : S.sleeps;
-    return list.find((x) => x.id === id);
+  // "When" for new entries: quick choices instead of a date picker.
+  const WHEN = [[0, "الآن"], [10, "قبل ١٠ د"], [30, "قبل ٣٠ د"], [60, "قبل ساعة"], [-1, "وقت آخر"]];
+  function whenPicker(c) {
+    let h = '<p class="label">متى؟</p><div class="chips" style="--c:' + c + '">' + WHEN.map((w) =>
+      '<button class="' + (D.when === w[0] ? "on" : "") + '" data-act="set" data-key="when" data-val="' + w[0] + '">' + w[1] + '</button>').join("") + '</div>';
+    if (D.when === -1) h += timeField("custom", "الوقت", D.custom || toLocalInput(now()));
+    return h;
+  }
+  function whenTime() {
+    if (D.when === -1) return fromLocalInput(D.custom || toLocalInput(now()), now());
+    return now() - (D.when || 0) * 60000;
   }
 
-  function frame(title, body, foot, opts) {
-    opts = opts || {};
-    return '<div class="sheet"><div class="sheet-bar"><span class="side"><button data-act="close">إغلاق</button></span><h2>' + title + '</h2><span class="side"></span></div>' +
+  function frame(title, body, foot) {
+    return '<div class="sheet"><div class="sheet-bar"><span class="side"><button data-act="close">' + (sheet.from === "log" ? "رجوع" : "إغلاق") + '</button></span><h2>' + title + '</h2><span class="side"></span></div>' +
       '<div class="sheet-body">' + body + '</div>' + (foot ? '<div class="sheet-foot">' + foot + '</div>' : '') + '</div>';
   }
   const saveBtn = (c, label, disabled) => '<button class="big" style="--c:' + c + '" data-act="save"' + (disabled ? " disabled" : "") + '>' + I.check + (label || "حفظ") + '</button>';
-  const timeField = (key, label, val) => '<div class="field"><label for="f-' + key + '">' + (label || "الوقت") + '</label><input id="f-' + key + '" type="datetime-local" data-bind="' + key + '" value="' + esc(val) + '" max="' + toLocalInput(now()) + '"></div>';
-  function stepper(key, c) {
+  const timeField = (key, label, val) => '<div class="field"><label for="f-' + key + '">' + label + '</label><input id="f-' + key + '" type="datetime-local" data-bind="' + key + '" value="' + esc(val) + '" max="' + toLocalInput(now()) + '"></div>';
+  function stepper(key, c, label) {
     const u = unitInfo();
-    return '<div class="stepper" style="--c:' + c + '">' +
+    return (label ? '<p class="label">' + label + '</p>' : '') + '<div class="stepper" style="--c:' + c + '">' +
       '<button class="round" data-act="step" data-key="' + key + '" data-dir="1" aria-label="زيادة">' + I.plus + '</button>' +
       '<div class="mid"><span class="amt num">' + num(u.from(D[key] || 0)) + '</span><span class="unit">' + u.name + '</span></div>' +
       '<button class="round" data-act="step" data-key="' + key + '" data-dir="-1" aria-label="إنقاص">' + I.minus + '</button></div>';
+  }
+  function minStepper(key, c, label, step) {
+    return '<p class="label">' + label + '</p><div class="stepper" style="--c:' + c + '">' +
+      '<button class="round" data-act="minkey" data-key="' + key + '" data-dir="' + step + '" aria-label="زيادة">' + I.plus + '</button>' +
+      '<div class="mid"><span class="amt num">' + dg(D[key] || 0) + '</span><span class="unit">دقيقة</span></div>' +
+      '<button class="round" data-act="minkey" data-key="' + key + '" data-dir="-' + step + '" aria-label="إنقاص">' + I.minus + '</button></div>';
   }
   function quick(key, c) {
     const u = unitInfo();
@@ -446,71 +560,72 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     return '<div class="seg" style="--c:' + c + '">' + options.map((o) =>
       '<button class="' + (D[key] === o[0] ? "on" : "") + '" data-act="set" data-key="' + key + '" data-val="' + o[0] + '" data-str="1">' + o[1] + '</button>').join("") + '</div>';
   }
-  function dangerBtn(key, label) {
+  function confirmBtn(key, label) {
     return '<button class="danger" data-act="confirm" data-key="' + key + '">' + (confirmKey === key ? "اضغطي مرة أخرى للتأكيد" : label) + '</button>';
   }
 
   function renderSheet() {
     if (!sheet) return;
     const el = document.getElementById("sheet");
-    const prevScroll = el.querySelector(".sheet-body") ? el.querySelector(".sheet-body").scrollTop : 0;
+    const old = el.querySelector(".sheet-body"), prevScroll = old ? old.scrollTop : 0;
     el.innerHTML = ({ nursing: sheetNursing, bottle: sheetBottle, pump: sheetPump, diaper: sheetDiaper,
       log: sheetLog, edit: sheetEdit, settings: sheetSettings, addsleep: sheetAddSleep })[sheet.name]();
     const body = el.querySelector(".sheet-body"); if (body) body.scrollTop = prevScroll;
   }
 
   function sheetNursing() {
-    const f = activeNursing(), t = now(), prev = lastFinishedSide();
+    const f = activeNursing(), t = now(), prev = lastNursingSide(true);
     const next = !f && prev ? other(prev) : null;
     let b = "";
-    if (!f && prev) b += '<p class="hint">آخر رضعة انتهت على ' + SIDE[prev] + '. ابدئي بـ' + SIDE[other(prev)] + '.</p>';
-    b += '<p class="bigclock num clk" data-tick="nurse">' + clock(f ? totalSecs(f, t) : 0) + '</p>';
+    if (!f && prev) b += '<p class="hint">آخر رضعة انتهت على ' + SIDE[prev] + '، فابدئي بـ' + SIDE[other(prev)] + '.</p>';
+    b += '<span class="bigclock num clk" data-tick="nurse">' + clock(f ? totalSecs(f, t) : 0) + '</span>';
     b += '<div class="sides">' + ["right", "left"].map((side) => {
       const on = f && f.run === side;
       return '<button class="side-btn' + (on ? " on" : "") + (next === side ? " next" : "") + '" data-act="nurse-side" data-side="' + side + '" aria-label="' + SIDE[side] + '">' +
         (on ? I.pause : I.play) + '<span class="nm">' + SIDE[side] + '</span><span class="t num clk" data-tick="side-' + side + '">' + clock(f ? sideSecs(f, side, t) : 0) + '</span>' +
         (next === side ? '<span class="chip">التالية</span>' : '') + '</button>';
     }).join("") + '</div>';
-    b += '<p class="subtle">' + (!f ? "اضغطي على الجهة لبدء المؤقت" : f.run ? "اضغطي على الجهة الأخرى للتبديل، أو على نفس الجهة للإيقاف المؤقت" : "متوقف مؤقتاً. اضغطي على جهة للمتابعة") + '</p>';
-    const foot = f ? saveBtn("var(--nursing)", "إنهاء وحفظ") + dangerBtn("cancel-nurse", "إلغاء هذه الرضعة") : "";
+    b += '<p class="subtle">' + (!f ? "اضغطي على الجهة لبدء المؤقت" : f.run ? "اضغطي على الجهة الأخرى للتبديل، أو نفس الجهة للإيقاف المؤقت" : "متوقف مؤقتاً. اضغطي على جهة للمتابعة") + '</p>';
+    if (f) {
+      b += '<div class="tools">' +
+        '<button class="ghost" data-act="nurse-reset">' + I.reset + 'تصفير المؤقت</button>' +
+        '<button class="ghost" data-act="nurse-swap"' + ((f.r || 0) + (f.l || 0) + (f.run ? 1 : 0) ? "" : " disabled") + '>' + I.swap + 'بدّلي الجهتين</button></div>';
+    }
+    const foot = f ? saveBtn("var(--nursing)", "انتهت الرضعة، احفظي") + confirmBtn("cancel-nurse", "إلغاء هذه الرضعة") : "";
     return frame("رضاعة طبيعية", b, foot);
   }
 
   function sheetBottle() {
     const b = seg("content", [["breastMilk", "حليب الأم"], ["formula", "حليب صناعي"]], "var(--bottle)") +
-      '<p class="section-title">الكمية</p>' + stepper("ml", "var(--bottle)") + quick("ml", "var(--bottle)") + timeField("time", "الوقت", D.time);
+      stepper("ml", "var(--bottle)", "الكمية") + quick("ml", "var(--bottle)") + whenPicker("var(--bottle)");
     return frame("رضّاعة", b, saveBtn("var(--bottle)", "حفظ", !(D.ml > 0)));
   }
 
   function sheetPump() {
-    const b = '<p class="section-title">الجهة اليمنى</p>' + stepper("rml", "var(--pump)") +
-      '<p class="section-title">الجهة اليسرى</p>' + stepper("lml", "var(--pump)") +
+    const b = stepper("rml", "var(--pump)", "الجهة اليمنى") + stepper("lml", "var(--pump)", "الجهة اليسرى") +
       '<p class="hint">المجموع: <span class="num">' + vol((D.rml || 0) + (D.lml || 0)) + '</span></p>' +
-      '<div class="stepper" style="--c:var(--pump)"><button class="round" data-act="mins" data-dir="5" aria-label="زيادة">' + I.plus + '</button>' +
-      '<div class="mid"><span class="amt num">' + dg(D.mins) + '</span><span class="unit">دقيقة</span></div>' +
-      '<button class="round" data-act="mins" data-dir="-5" aria-label="إنقاص">' + I.minus + '</button></div>' +
-      timeField("time", "الوقت", D.time);
+      minStepper("mins", "var(--pump)", "المدة", 5) + whenPicker("var(--pump)");
     return frame("شفط الحليب", b, saveBtn("var(--pump)", "حفظ", !((D.rml || 0) + (D.lml || 0) > 0)));
   }
 
   function stoolFields() {
-    let b = '<p class="section-title">لون البراز (اختياري)</p><div class="swatches">' + COLORS.map((c) =>
+    let b = '<p class="label">لون البراز (اختياري)</p><div class="swatches">' + COLORS.map((c) =>
       '<button class="swatch' + (D.color === c[0] ? " on" : "") + '" data-act="toggle" data-key="color" data-val="' + c[0] + '"><i style="background:' + c[2] + '"></i>' + c[1] + '</button>').join("") + '</div>';
     if (D.color && COLOR_WARN[D.color]) b += '<p class="warnbox">' + COLOR_WARN[D.color] + '</p>';
-    b += '<p class="section-title">القوام (اختياري)</p><div class="chips3">' + CONS.map((c) =>
+    b += '<p class="label">القوام (اختياري)</p><div class="chips" style="--c:var(--diaper)">' + CONS.map((c) =>
       '<button class="' + (D.cons === c[0] ? "on" : "") + '" data-act="toggle" data-key="cons" data-val="' + c[0] + '">' + c[1] + '</button>').join("") + '</div>';
     return b;
   }
 
   function sheetDiaper() {
-    let b = Object.keys(DKIND).map((k) =>
-      '<button class="big' + (D.kind && D.kind !== k ? " soft" : "") + '" style="--c:var(--diaper)" data-act="diaper-kind" data-val="' + k + '">' + DICON[k] + DKIND[k] + '</button>').join("");
-    if (!D.kind) b += '<p class="subtle">المبلل يُحفظ مباشرة بضغطة واحدة</p>';
+    const sub = { wet: "يُحفظ فوراً بضغطة واحدة", dirty: "يمكنك إضافة اللون", mixed: "يمكنك إضافة اللون" };
+    let b = '<div class="kinds">' + Object.keys(DKIND).map((k) =>
+      '<button class="kind' + (D.kind === k ? " on" : "") + '" data-act="diaper-kind" data-val="' + k + '">' + DICON[k] + '<span>' + DKIND[k] + '<small>' + sub[k] + '</small></span></button>').join("") + '</div>';
     if (D.kind && D.kind !== "wet") {
       b += stoolFields();
       b += '<textarea id="f-note" data-bind="note" placeholder="ملاحظة (اختياري)">' + esc(D.note) + '</textarea>';
     }
-    b += timeField("time", "الوقت", D.time);
+    b += whenPicker("var(--diaper)");
     return frame("حفاض", b, D.kind && D.kind !== "wet" ? saveBtn("var(--diaper)") : "");
   }
 
@@ -521,182 +636,179 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
     return frame("إضافة نوم سابق", b, saveBtn("var(--sleep)", "حفظ"));
   }
 
-  // ----- Log -----
-  function rowInfo(type, e) {
-    if (type === "feed") {
-      if (e.kind === "nursing") return { c: "var(--nursing)", i: I.heart, title: "رضاعة طبيعية", sub: e.end == null ? "جارية الآن" : "يمين " + dur(e.r) + " · يسار " + dur(e.l), t: e.start };
-      if (e.kind === "bottle") return { c: "var(--bottle)", i: I.bottle, title: "رضّاعة", sub: vol(e.ml) + " · " + CONTENT[e.content || "breastMilk"], t: e.start };
-      return { c: "var(--pump)", i: I.pump, title: "شفط الحليب", sub: "يمين " + vol(e.rml) + " · يسار " + vol(e.lml) + " · " + dur(((e.end || e.start) - e.start) / 1000), t: e.start };
-    }
-    if (type === "diaper") {
-      const parts = [colorName(e.color), consName(e.cons), e.note ? esc(e.note) : ""].filter(Boolean);
-      return { c: "var(--diaper)", i: DICON[e.kind] || I.drop, title: "حفاض " + DKIND[e.kind], sub: parts.join(" · "), t: e.t };
-    }
-    return { c: "var(--sleep)", i: I.moon, title: "نوم", sub: e.end == null ? "نائم الآن" : dur((e.end - e.start) / 1000) + " · حتى " + tm(e.end), t: e.start };
-  }
   function sheetLog() {
-    const items = [].concat(
-      S.feeds.map((e) => ({ type: "feed", e, t: e.start })),
-      S.diapers.map((e) => ({ type: "diaper", e, t: e.t })),
-      S.sleeps.map((e) => ({ type: "sleep", e, t: e.start }))
-    ).sort((a, b) => b.t - a.t);
-    let b = '<button class="linkbtn" data-act="open" data-sheet="addsleep">' + I.moon + ' إضافة نوم سابق</button>';
-    if (!items.length) b += '<p class="empty">لا توجد سجلات بعد.<br>كل رضعة وحفاض ونوم تسجلينه سيظهر هنا.</p>';
+    const items = allItems();
+    let b = '<button class="ghost" data-act="open" data-sheet="addsleep">' + I.moon + 'إضافة نوم نسيتِ تسجيله</button>';
+    if (!items.length) b += '<p class="empty">لا توجد سجلات بعد.</p>';
     const days = [];
     items.forEach((it) => { const d = startOfDay(it.t); if (!days.length || days[days.length - 1].d !== d) days.push({ d, items: [] }); days[days.length - 1].items.push(it); });
     days.forEach((g) => {
       const st = dayStats(g.d);
       b += '<section class="day"><div class="day-h"><b>' + dayTitle(g.d) + '</b><span>' +
         dg(st.feeds.length) + ' رضعات · ' + dg(st.diapers.length) + ' حفاضات · نوم ' + dur(st.sleep) + '</span></div><div class="rows">' +
-        g.items.map((it) => { const r = rowInfo(it.type, it.e);
-          return '<button class="row" style="--c:' + r.c + '" data-act="edit" data-type="' + it.type + '" data-id="' + it.e.id + '"><span class="ic">' + r.i + '</span>' +
-            '<span class="mid"><b>' + r.title + '</b>' + (r.sub ? '<span>' + r.sub + '</span>' : '') + '</span><time class="num">' + tm(r.t) + '</time></button>'; }).join("") +
-        '</div></section>';
+        g.items.map((it) => rowHtml(it, false)).join("") + '</div></section>';
     });
-    return frame("سجل الأيام", b, "");
+    return frame("السجل", b, "");
   }
 
-  function minutesStepper(key, label, c) {
-    return '<p class="section-title">' + label + '</p><div class="stepper" style="--c:' + c + '"><button class="round" data-act="minkey" data-key="' + key + '" data-dir="1" aria-label="زيادة">' + I.plus + '</button>' +
-      '<div class="mid"><span class="amt num">' + dg(D[key] || 0) + '</span><span class="unit">دقيقة</span></div>' +
-      '<button class="round" data-act="minkey" data-key="' + key + '" data-dir="-1" aria-label="إنقاص">' + I.minus + '</button></div>';
-  }
   function sheetEdit() {
     const e = findEntry(sheet.type, sheet.id);
     if (!e) return frame("تعديل", '<p class="empty">هذا السجل لم يعد موجوداً.</p>', "");
-    let b = "";
+    let b = "", title = rowInfo(sheet.type, e).title;
     if (sheet.type === "feed") {
       b += timeField("time", "البداية", D.time);
-      if (e.kind === "nursing" && e.end != null) b += minutesStepper("rmin", "الجهة اليمنى", "var(--nursing)") + minutesStepper("lmin", "الجهة اليسرى", "var(--nursing)");
-      if (e.kind === "bottle") b += seg("content", [["breastMilk", "حليب الأم"], ["formula", "حليب صناعي"]], "var(--bottle)") + stepper("ml", "var(--bottle)");
-      if (e.kind === "pump") b += '<p class="section-title">الجهة اليمنى</p>' + stepper("rml", "var(--pump)") + '<p class="section-title">الجهة اليسرى</p>' + stepper("lml", "var(--pump)") + minutesStepper("mins", "المدة", "var(--pump)");
+      if (e.kind === "nursing" && e.end != null) b += minStepper("rmin", "var(--nursing)", "الجهة اليمنى", 1) + minStepper("lmin", "var(--nursing)", "الجهة اليسرى", 1);
+      if (e.kind === "nursing" && e.end == null) b += '<p class="hint">الرضعة ما زالت جارية. يمكنك تعديلها من المؤقت.</p>';
+      if (e.kind === "bottle") b += seg("content", [["breastMilk", "حليب الأم"], ["formula", "حليب صناعي"]], "var(--bottle)") + stepper("ml", "var(--bottle)", "الكمية");
+      if (e.kind === "pump") b += stepper("rml", "var(--pump)", "الجهة اليمنى") + stepper("lml", "var(--pump)", "الجهة اليسرى") + minStepper("mins", "var(--pump)", "المدة", 5);
     } else if (sheet.type === "diaper") {
-      b += timeField("time", "الوقت", D.time) + seg("kind", [["wet", "مبلل"], ["dirty", "متسخ"], ["mixed", "الاثنان"]], "var(--diaper)");
+      title = "حفاض";
+      b += seg("kind", [["wet", "مبلل"], ["dirty", "متسخ"], ["mixed", "الاثنان"]], "var(--diaper)") + timeField("time", "الوقت", D.time);
       if (D.kind !== "wet") b += stoolFields();
     } else {
       b += timeField("time", "نام", D.time);
-      b += e.end != null ? timeField("endTime", "استيقظ", D.endTime) : '<p class="hint">نائم الآن</p>';
+      b += e.end != null ? timeField("endTime", "استيقظ", D.endTime) : '<p class="hint">ما زال نائماً الآن.</p>';
     }
     b += '<textarea id="f-note" data-bind="note" placeholder="ملاحظة (اختياري)">' + esc(D.note || "") + '</textarea>';
-    return frame("تعديل", b, saveBtn("var(--sleep)", "حفظ التعديل") + dangerBtn("delete", "حذف هذا السجل"));
+    const foot = saveBtn("var(--sleep)", "حفظ التعديل") + '<button class="danger" data-act="delete">حذف هذا السجل</button>';
+    return frame("تعديل: " + title, b, foot);
   }
 
   function sheetSettings() {
     const b = '<div class="field col"><label for="f-baby">اسم الطفل</label><input id="f-baby" data-bind="baby" value="' + esc(D.baby) + '"></div>' +
       '<div class="field"><label for="f-birth">تاريخ الميلاد</label><input id="f-birth" type="date" data-bind="birth" value="' + esc(D.birth) + '" max="' + toLocalInput(now()).slice(0, 10) + '"></div>' +
       '<div class="field col"><label for="f-mother">اسم الأم</label><input id="f-mother" data-bind="mother" value="' + esc(D.mother) + '"></div>' +
-      '<p class="section-title">وحدة الكمية</p>' + seg("unit", [["ml", "مل"], ["oz", "أونصة"]], "var(--sleep)") +
-      '<p class="section-title">الوضع الليلي</p>' + seg("theme", [["system", "حسب الجهاز"], ["dark", "ليلي"], ["light", "نهاري"]], "var(--sleep)") +
+      '<p class="label">وحدة الكمية</p>' + seg("unit", [["ml", "مل"], ["oz", "أونصة"]], "var(--sleep)") +
+      '<p class="label">المظهر</p>' + seg("theme", [["system", "تلقائي"], ["dark", "ليلي"], ["light", "نهاري"]], "var(--sleep)") +
       '<p class="subtle">الوضع الليلي أسود بالكامل وخافت حتى لا يزعج الإضاءة أثناء رضعات الليل.</p>' +
-      '<p class="section-title">نسخة احتياطية</p>' +
-      '<button class="linkbtn" data-act="backup">نسخ كل البيانات</button>' +
+      '<p class="label">نسخة احتياطية</p>' +
+      '<button class="ghost" data-act="backup">نسخ كل البيانات</button>' +
       '<textarea id="f-restore" data-bind="restore" placeholder="لاسترجاع نسخة، الصقيها هنا"></textarea>' +
-      dangerBtn("restore", "استرجاع النسخة الملصقة") +
-      '<p class="subtle">كل البيانات محفوظة على هذا الهاتف فقط ولا تُرسل إلى أي مكان. انسخي نسخة احتياطية واحفظيها في الملاحظات من وقت لآخر.</p>';
+      '<button class="ghost" data-act="restore">استرجاع النسخة الملصقة</button>' +
+      '<p class="subtle">البيانات محفوظة على هذا الهاتف فقط. انسخي نسخة احتياطية واحفظيها في الملاحظات من وقت لآخر.</p>' +
+      '<p class="label">البدء من جديد</p>' + confirmBtn("wipe", "مسح كل السجلات") +
+      '<p class="subtle">يمكن التراجع عن المسح مباشرة بعده.</p>';
     return frame("الإعدادات", b, saveBtn("var(--sleep)", "حفظ الإعدادات"));
   }
 
   // ---------- Actions ----------
+  function addEntry(list, entry, label) { change(label, () => S[list].push(entry)); }
+
   function doSave() {
-    const s = sheet, t = now();
+    const s = sheet;
     if (s.name === "nursing") {
       const f = activeNursing(); if (!f) return closeSheet();
-      pauseFeed(f, t); f.end = t; save(); toast("حُفظت الرضعة"); return closeSheet();
+      change("حُفظت الرضعة (" + dur(totalSecs(f, now())) + ")", () => { const t = now(); pauseFeed(f, t); f.end = t; });
+      return closeSheet();
     }
     if (s.name === "bottle") {
-      const at = fromLocalInput(D.time, t);
-      S.feeds.push({ id: uid(), kind: "bottle", start: at, end: at, ml: D.ml, content: D.content, note: "" });
-      save(); toast("حُفظت الرضّاعة"); return closeSheet();
+      const at = whenTime();
+      addEntry("feeds", { id: uid(), kind: "bottle", start: at, end: at, ml: D.ml, content: D.content, note: "" }, "حُفظت رضّاعة " + vol(D.ml));
+      return closeSheet();
     }
     if (s.name === "pump") {
-      const at = fromLocalInput(D.time, t);
-      S.feeds.push({ id: uid(), kind: "pump", start: at, end: at + D.mins * 60000, rml: D.rml, lml: D.lml, note: "" });
-      save(); toast("حُفظ الشفط"); return closeSheet();
+      const at = whenTime();
+      addEntry("feeds", { id: uid(), kind: "pump", start: at, end: at + D.mins * 60000, rml: D.rml, lml: D.lml, note: "" }, "حُفظ الشفط " + vol(D.rml + D.lml));
+      return closeSheet();
     }
-    if (s.name === "diaper") { return saveDiaper(); }
+    if (s.name === "diaper") return saveDiaper();
     if (s.name === "addsleep") {
       const a = fromLocalInput(D.start, 0), b = fromLocalInput(D.end, 0);
       if (!(b > a)) return toast("وقت الاستيقاظ يجب أن يكون بعد وقت النوم");
-      S.sleeps.push({ id: uid(), start: a, end: b, note: "" }); save(); toast("حُفظ النوم");
-      return openSheet("log");
+      addEntry("sleeps", { id: uid(), start: a, end: b, note: "" }, "حُفظ نوم " + dur((b - a) / 1000));
+      return openSheet("log", { from: "home" });
     }
     if (s.name === "settings") {
-      Object.assign(S.settings, { baby: (D.baby || "").trim() || "مالك", mother: (D.mother || "").trim(), birth: D.birth || "", unit: D.unit, theme: D.theme });
-      save(); applyTheme(); toast("حُفظت الإعدادات"); return closeSheet();
+      change("تغيير الإعدادات", () => Object.assign(S.settings, { baby: (D.baby || "").trim() || "مالك", mother: (D.mother || "").trim(), birth: D.birth || "", unit: D.unit, theme: D.theme }));
+      applyTheme(); return closeSheet();
     }
     if (s.name === "edit") {
       const e = findEntry(s.type, s.id); if (!e) return openSheet("log");
-      e.note = (D.note || "").trim();
-      if (s.type === "feed") {
-        const oldStart = e.start; e.start = fromLocalInput(D.time, e.start);
-        if (e.kind === "nursing" && e.end != null) { e.r = (D.rmin || 0) * 60; e.l = (D.lmin || 0) * 60; e.end = e.start + (e.r + e.l) * 1000; }
-        if (e.kind === "bottle") { e.ml = D.ml; e.content = D.content; e.end = e.start; }
-        if (e.kind === "pump") { e.rml = D.rml; e.lml = D.lml; e.end = e.start + (D.mins || 0) * 60000; }
-        if (e.kind === "nursing" && e.end == null && e.since && e.start !== oldStart) { /* running: keep timer */ }
-      } else if (s.type === "diaper") {
-        e.t = fromLocalInput(D.time, e.t); e.kind = D.kind;
-        e.color = D.kind === "wet" ? null : D.color; e.cons = D.kind === "wet" ? null : D.cons;
-      } else {
-        const a = fromLocalInput(D.time, e.start);
-        if (e.end != null) { const b = fromLocalInput(D.endTime, e.end); if (!(b > a)) return toast("وقت الاستيقاظ يجب أن يكون بعد وقت النوم"); e.end = b; }
-        e.start = a;
+      if (s.type === "sleep" && e.end != null) {
+        const a = fromLocalInput(D.time, e.start), b = fromLocalInput(D.endTime, e.end);
+        if (!(b > a)) return toast("وقت الاستيقاظ يجب أن يكون بعد وقت النوم");
       }
-      save(); toast("حُفظ التعديل"); return openSheet("log");
+      change("تعديل " + rowInfo(s.type, e).title, () => {
+        e.note = (D.note || "").trim();
+        if (s.type === "feed") {
+          e.start = fromLocalInput(D.time, e.start);
+          if (e.kind === "nursing" && e.end != null) { e.r = (D.rmin || 0) * 60; e.l = (D.lmin || 0) * 60; e.end = e.start + (e.r + e.l) * 1000; }
+          if (e.kind === "bottle") { e.ml = D.ml; e.content = D.content; e.end = e.start; }
+          if (e.kind === "pump") { e.rml = D.rml; e.lml = D.lml; e.end = e.start + (D.mins || 0) * 60000; }
+        } else if (s.type === "diaper") {
+          e.t = fromLocalInput(D.time, e.t); e.kind = D.kind;
+          e.color = D.kind === "wet" ? null : D.color; e.cons = D.kind === "wet" ? null : D.cons;
+        } else {
+          e.start = fromLocalInput(D.time, e.start);
+          if (e.end != null) e.end = fromLocalInput(D.endTime, e.end);
+        }
+      });
+      return s.from === "log" ? openSheet("log", { from: "home" }) : closeSheet();
     }
   }
   function saveDiaper() {
-    const at = fromLocalInput(D.time, now());
-    S.diapers.push({ id: uid(), t: at, kind: D.kind, color: D.kind === "wet" ? null : D.color, cons: D.kind === "wet" ? null : D.cons, note: (D.note || "").trim() });
-    save(); toast("حُفظ الحفاض"); closeSheet();
+    const at = whenTime(), kind = D.kind;
+    addEntry("diapers", { id: uid(), t: at, kind, color: kind === "wet" ? null : D.color, cons: kind === "wet" ? null : D.cons, note: (D.note || "").trim() }, "حُفظ حفاض " + DKIND[kind]);
+    closeSheet();
   }
 
   function onConfirmed(key) {
     if (key === "cancel-nurse") {
-      const f = activeNursing(); if (f) S.feeds = S.feeds.filter((x) => x !== f);
-      save(); toast("أُلغيت الرضعة"); return closeSheet();
+      const f = activeNursing();
+      if (f) change("إلغاء الرضعة", () => { S.feeds = S.feeds.filter((x) => x !== f); });
+      return closeSheet();
     }
-    if (key === "delete") {
-      const list = sheet.type === "feed" ? "feeds" : sheet.type === "diaper" ? "diapers" : "sleeps";
-      S[list] = S[list].filter((x) => x.id !== sheet.id); save(); toast("حُذف السجل"); return openSheet("log");
-    }
-    if (key === "restore") {
-      try {
-        const d = JSON.parse(D.restore || "");
-        if (!d || !Array.isArray(d.feeds) || !Array.isArray(d.diapers) || !Array.isArray(d.sleeps)) throw new Error("bad");
-        S = Object.assign({}, DEFAULT, d, { settings: Object.assign({}, DEFAULT.settings, d.settings || {}) });
-        save(); applyTheme(); toast("تم استرجاع النسخة"); return closeSheet();
-      } catch (e) { toast("النص الملصق ليس نسخة صالحة"); renderSheet(); }
+    if (key === "wipe") {
+      change("مسح كل السجلات", () => { S.feeds = []; S.diapers = []; S.sleeps = []; });
+      return closeSheet();
     }
   }
 
   document.addEventListener("click", (ev) => {
     const btn = ev.target.closest("[data-act]"); if (!btn || btn.disabled) return;
-    const act = btn.dataset.act, t = now();
-    if (act !== "confirm" && confirmKey) { confirmKey = null; }
+    const act = btn.dataset.act;
+    if (act !== "confirm" && confirmKey) confirmKey = null;
     switch (act) {
-      case "open": return openSheet(btn.dataset.sheet);
-      case "close": return sheet && sheet.name === "edit" || sheet && sheet.name === "addsleep" ? openSheet("log") : closeSheet();
+      case "undo": return undo();
+      case "open": return openSheet(btn.dataset.sheet, { from: sheet ? sheet.name : "home" });
+      case "close": return sheet && sheet.from === "log" ? openSheet("log", { from: "home" }) : closeSheet();
       case "toggle-night":
         S.settings.theme = isDark() ? "light" : "dark"; save(); applyTheme(); return renderHome();
       case "toggle-sleep": {
-        const sl = activeSleep();
-        if (sl) { sl.end = t; toast("صباح الخير يا " + S.settings.baby); }
-        else { S.sleeps.push({ id: uid(), start: t, end: null, note: "" }); toast("نوماً هنيئاً"); }
-        save(); return renderHome();
+        const sl = activeSleep(), name = S.settings.baby;
+        if (sl) change("استيقظ " + name + " بعد " + dur((now() - sl.start) / 1000), () => { sl.end = now(); });
+        else change("نام " + name + " الآن", () => S.sleeps.push({ id: uid(), start: now(), end: null, note: "" }));
+        return renderHome();
       }
       case "nurse-side": {
-        let f = activeNursing(); const side = btn.dataset.side;
-        if (!f) { f = { id: uid(), kind: "nursing", start: t, end: null, r: 0, l: 0, run: null, since: null, last: null, note: "" }; S.feeds.push(f); }
-        if (f.run === side) pauseFeed(f, t);
-        else { pauseFeed(f, t); if (f.r === 0 && f.l === 0) f.start = t; f.run = side; f.since = t; f.last = side; }
-        save(); return renderSheet();
+        const side = btn.dataset.side, f0 = activeNursing();
+        const label = !f0 ? "بدء الرضاعة من " + SIDE[side] : f0.run === side ? "إيقاف مؤقت" : "تبديل إلى " + SIDE[side];
+        change(label, () => {
+          const t = now(); let f = activeNursing();
+          if (!f) { f = { id: uid(), kind: "nursing", start: t, end: null, r: 0, l: 0, run: null, since: null, last: null, note: "" }; S.feeds.push(f); }
+          if (f.run === side) pauseFeed(f, t);
+          else { pauseFeed(f, t); if (f.r === 0 && f.l === 0) f.start = t; f.run = side; f.since = t; f.last = side; }
+        });
+        return renderSheet();
+      }
+      case "nurse-reset": {
+        change("تصفير المؤقت", () => { const f = activeNursing(); if (f) { const t = now(); f.r = 0; f.l = 0; f.start = t; if (f.run) f.since = t; } });
+        return renderSheet();
+      }
+      case "nurse-swap": {
+        change("تبديل الجهتين", () => {
+          const f = activeNursing(); if (!f) return;
+          const t = now(); const wasRunning = f.run; pauseFeed(f, t);
+          const r = f.r; f.r = f.l; f.l = r;
+          if (wasRunning) { f.run = other(wasRunning); f.since = t; f.last = f.run; } else if (f.last) f.last = other(f.last);
+        });
+        return renderSheet();
       }
       case "step": {
         const u = unitInfo(), k = btn.dataset.key;
         const v = Math.max(0, Math.round((u.from(D[k] || 0) + u.step * Number(btn.dataset.dir)) / u.step) * u.step);
         D[k] = u.to(v); return renderSheet();
       }
-      case "mins": D.mins = Math.max(0, Math.min(180, (D.mins || 0) + Number(btn.dataset.dir))); return renderSheet();
       case "minkey": D[btn.dataset.key] = Math.max(0, Math.min(180, (D[btn.dataset.key] || 0) + Number(btn.dataset.dir))); return renderSheet();
       case "set": D[btn.dataset.key] = btn.dataset.str ? btn.dataset.val : Number(btn.dataset.val); return renderSheet();
       case "toggle": D[btn.dataset.key] = D[btn.dataset.key] === btn.dataset.val ? null : btn.dataset.val; return renderSheet();
@@ -705,7 +817,15 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
         if (D.kind === "wet") return saveDiaper();
         return renderSheet();
       case "save": return doSave();
-      case "edit": return openSheet("edit", { type: btn.dataset.type, id: btn.dataset.id });
+      case "edit": return openSheet("edit", { type: btn.dataset.type, id: btn.dataset.id, from: sheet && sheet.name === "log" ? "log" : "home" });
+      case "delete": {
+        const e = findEntry(sheet.type, sheet.id), from = sheet.from;
+        if (e) {
+          const list = sheet.type === "feed" ? "feeds" : sheet.type === "diaper" ? "diapers" : "sleeps", id = sheet.id;
+          change("حُذف: " + rowInfo(sheet.type, e).title, () => { S[list] = S[list].filter((x) => x.id !== id); });
+        }
+        return from === "log" ? openSheet("log", { from: "home" }) : closeSheet();
+      }
       case "confirm": {
         const k = btn.dataset.key;
         if (confirmKey === k) { confirmKey = null; clearTimeout(confirmTimer); return onConfirmed(k); }
@@ -714,10 +834,17 @@ textarea { width: 100%; min-height: 84px; background: var(--surface); border: 1p
         return renderSheet();
       }
       case "backup": {
-        const text = JSON.stringify(S);
-        const fallback = () => { D.restore = text; renderSheet(); const ta = document.getElementById("f-restore"); if (ta) { ta.focus(); ta.select(); } toast("حدّدي النص وانسخيه"); };
+        const text = JSON.stringify({ v: S.v, feeds: S.feeds, diapers: S.diapers, sleeps: S.sleeps, settings: S.settings });
+        const fallback = () => { D.restore = text; renderSheet(); const ta = document.getElementById("f-restore"); if (ta) { ta.value = text; ta.focus(); ta.select(); } toast("حدّدي النص وانسخيه"); };
         try { navigator.clipboard.writeText(text).then(() => toast("نُسخت البيانات. الصقيها في الملاحظات"), fallback); } catch (e) { fallback(); }
         return;
+      }
+      case "restore": {
+        let d;
+        try { d = JSON.parse(D.restore || ""); } catch (e) { d = null; }
+        if (!d || !Array.isArray(d.feeds) || !Array.isArray(d.diapers) || !Array.isArray(d.sleeps)) return toast("النص الملصق ليس نسخة صالحة");
+        change("استرجاع نسخة احتياطية", () => { S = normalize(d); });
+        applyTheme(); return closeSheet();
       }
     }
   });
