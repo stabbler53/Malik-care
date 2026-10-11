@@ -8,12 +8,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="رعاية مالك">
 <meta name="theme-color" content="#fbf5f2">
-<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" href="icon-180.png?v=3">
 <link rel="manifest" href="manifest.webmanifest">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
 <title>رعاية مالك</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Reem+Kufi:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap">
 <style>
 /* Layout: one-thumb app. Calm summary on top, three big daily actions fixed at the bottom, undo bar just above them. */
 :root {
@@ -21,21 +21,26 @@
   --nursing: #c9566c; --bottle: #d9853b; --pump: #8a6cc4; --diaper: #2f978d; --sleep: #5466c4; --warn: #b3392b;
   --on-color: #ffffff; --tint: 0.13;
   --font-body: "IBM Plex Sans Arabic", "Geeza Pro", "SF Arabic", system-ui, sans-serif;
-  --font-display: "Reem Kufi", "IBM Plex Sans Arabic", "Geeza Pro", sans-serif;
+  --font-display: "Baloo Bhaijaan 2", "IBM Plex Sans Arabic", "Geeza Pro", sans-serif;
+  --bun: #ffffff; --bun-line: #e9d3cc; --bun-in: #f6b8c4; --bun-ink: #3a2a30; --cheek: #ffb3c1;
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23c9566c' fill-opacity='.07'%3E%3Cellipse cx='30' cy='34' rx='5' ry='6'/%3E%3Cellipse cx='42' cy='28' rx='4' ry='5'/%3E%3Cellipse cx='52' cy='34' rx='4' ry='5'/%3E%3Cellipse cx='42' cy='44' rx='9' ry='8'/%3E%3C/g%3E%3Cg fill='%23d9853b' fill-opacity='.09'%3E%3Cpath d='M112 96l22-22c4 2 6 5 5 9l-22 18z'/%3E%3C/g%3E%3Cg fill='%232f978d' fill-opacity='.09'%3E%3Cpath d='M134 74c2-6 8-8 12-6-2 5-7 8-12 6zM133 72c-1-6 2-11 7-12 1 5-2 10-7 12z'/%3E%3C/g%3E%3Cg fill='%235466c4' fill-opacity='.07'%3E%3Cpath d='M100 20l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/%3E%3Cpath d='M40 120l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z'/%3E%3C/g%3E%3C/svg%3E");
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #000000; --surface: #0e0c0d; --soft: #141113; --line: #1d191b; --fg: #d9cfd2; --muted: #85777c;
   --nursing: #8f4554; --bottle: #8c5a2f; --pump: #5e4c86; --diaper: #2a6a64; --sleep: #3c4884; --warn: #b05a4e;
-  --on-color: #eadfe2; --tint: 0.22; color-scheme: dark;
+  --on-color: #eadfe2; --tint: 0.22; color-scheme: dark; --bun: #cbbfc3; --bun-line: #2a2326; --bun-in: #8a5a64; --bun-ink: #000000; --cheek: #7a4652;
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='.035'%3E%3Cellipse cx='30' cy='34' rx='5' ry='6'/%3E%3Cellipse cx='42' cy='28' rx='4' ry='5'/%3E%3Cellipse cx='52' cy='34' rx='4' ry='5'/%3E%3Cellipse cx='42' cy='44' rx='9' ry='8'/%3E%3Cpath d='M100 20l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/%3E%3Cpath d='M40 120l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z'/%3E%3Cpath d='M112 96l22-22c4 2 6 5 5 9l-22 18z'/%3E%3C/g%3E%3C/svg%3E");
 } }
 :root[data-theme="dark"] {
   --bg: #000000; --surface: #0e0c0d; --soft: #141113; --line: #1d191b; --fg: #d9cfd2; --muted: #85777c;
   --nursing: #8f4554; --bottle: #8c5a2f; --pump: #5e4c86; --diaper: #2a6a64; --sleep: #3c4884; --warn: #b05a4e;
-  --on-color: #eadfe2; --tint: 0.22; color-scheme: dark;
+  --on-color: #eadfe2; --tint: 0.22; color-scheme: dark; --bun: #cbbfc3; --bun-line: #2a2326; --bun-in: #8a5a64; --bun-ink: #000000; --cheek: #7a4652;
+  --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='%23ffffff' fill-opacity='.035'%3E%3Cellipse cx='30' cy='34' rx='5' ry='6'/%3E%3Cellipse cx='42' cy='28' rx='4' ry='5'/%3E%3Cellipse cx='52' cy='34' rx='4' ry='5'/%3E%3Cellipse cx='42' cy='44' rx='9' ry='8'/%3E%3Cpath d='M100 20l2 5 5 2-5 2-2 5-2-5-5-2 5-2z'/%3E%3Cpath d='M40 120l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z'/%3E%3Cpath d='M112 96l22-22c4 2 6 5 5 9l-22 18z'/%3E%3C/g%3E%3C/svg%3E");
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { background: var(--bg); color: var(--fg); }
+body { background-image: var(--pattern); background-attachment: fixed; }
 body { font-family: var(--font-body); font-size: 18px; line-height: 1.5; margin: 0; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; border: 0; background: none; padding: 0; }
@@ -180,6 +185,83 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
 .day-h b { font-size: 17px; }
 .day-h span { color: var(--muted); font-size: 14px; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(70px + env(safe-area-inset-top, 0px)); background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-weight: 700; z-index: 40; font-size: 15px; max-width: calc(100% - 32px); text-align: center; }
+
+/* ---------- Bunny theme & motion ---------- */
+.baby, .sheet-bar h2, .act, .big, .hero .v, .today b, .kind, .side-btn .nm, .bigclock, .stepper .amt, .sec h3, .pill, .undo span { font-family: var(--font-display); }
+.baby { font-size: 42px; font-weight: 800; letter-spacing: 0; }
+.hero .v { font-weight: 800; }
+.mascot { width: 76px; height: 76px; flex: none; cursor: pointer; filter: drop-shadow(0 4px 8px rgba(120,60,70,.15)); }
+.mascot svg { width: 100%; height: 100%; overflow: visible; }
+.mascot .ears { transform-origin: 60px 60px; animation: earwiggle 5s ease-in-out infinite; }
+.mascot.hop { animation: hop .7s cubic-bezier(.3,1.6,.5,1); }
+.mascot.sleep .zz { animation: zz 2.4s ease-in-out infinite; }
+.mascot.sleep .zz:nth-of-type(2) { animation-delay: .8s; }
+@keyframes earwiggle { 0%, 86%, 100% { transform: rotate(0); } 90% { transform: rotate(-6deg); } 95% { transform: rotate(5deg); } }
+@keyframes hop { 0% { transform: translateY(0) scale(1); } 30% { transform: translateY(-22px) scale(1.05, .95); } 55% { transform: translateY(0) scale(1.1, .88); } 75% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+@keyframes zz { 0% { opacity: 0; transform: translate(0, 0) scale(.6); } 40% { opacity: 1; } 100% { opacity: 0; transform: translate(-14px, -22px) scale(1.1); } }
+.hero { position: relative; overflow: hidden; padding-inline-end: 110px; min-height: 132px; }
+.hero .peek { position: absolute; inset-inline-end: 8px; bottom: -14px; width: 100px; height: 112px; animation: peek 4s ease-in-out infinite; }
+@keyframes peek { 0%, 100% { transform: translateY(6px); } 50% { transform: translateY(0); } }
+.today div i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; margin: 0 auto 2px; color: var(--c); background: color-mix(in srgb, var(--c) calc(var(--tint) * 100%), var(--surface)); }
+.today div i svg { width: 18px; height: 18px; }
+.act { position: relative; overflow: hidden; box-shadow: 0 6px 0 color-mix(in srgb, var(--c) 70%, #000 30%); transform: translateY(-3px); }
+.act:active { transform: translateY(2px) scale(.97); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 70%, #000 30%); }
+.act.small { box-shadow: none; transform: none; }
+.act svg { transition: transform .3s cubic-bezier(.3,1.8,.5,1); }
+.act:active svg { transform: scale(1.25) rotate(-8deg); }
+.act::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.28), transparent 55%); pointer-events: none; }
+.big { box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 70%, #000 30%); }
+.big:active { box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 70%, #000 30%); transform: translateY(3px); }
+.big.soft { box-shadow: none; }
+.live .stars { position: relative; width: 36px; height: 36px; flex: none; color: var(--c); }
+.live .stars svg { position: absolute; width: 12px; height: 12px; animation: twinkle 1.8s ease-in-out infinite; }
+.live .stars svg:nth-child(1) { top: 0; left: 4px; }
+.live .stars svg:nth-child(2) { top: 14px; left: 20px; width: 9px; height: 9px; animation-delay: .6s; }
+.live .stars svg:nth-child(3) { top: 24px; left: 2px; width: 10px; height: 10px; animation-delay: 1.2s; }
+@keyframes twinkle { 0%, 100% { opacity: .2; transform: scale(.6) rotate(0); } 50% { opacity: 1; transform: scale(1.1) rotate(25deg); } }
+.side-btn { transition: transform .25s cubic-bezier(.3,1.6,.5,1), background .25s; }
+.side-btn:active { transform: scale(.95); }
+.side-btn.on svg { animation: heartbeat 1.2s ease-in-out infinite; }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(1); } 45% { transform: scale(1.12); } }
+.kind { transition: transform .2s cubic-bezier(.3,1.6,.5,1); }
+.kind:active { transform: scale(.97); }
+.swatch, .chips button, .quick button, .seg button, .round { transition: transform .2s cubic-bezier(.3,1.6,.5,1), background .2s; }
+.swatch:active, .chips button:active, .quick button:active, .round:active { transform: scale(.9); }
+.swatch.on i { animation: bounceIn .4s cubic-bezier(.3,1.8,.5,1); }
+@keyframes bounceIn { 0% { transform: scale(.5); } 100% { transform: scale(1); } }
+.sheet-bar h2 { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 21px; font-weight: 700; }
+.sheet-bar h2 svg { width: 30px; height: 30px; flex: none; }
+#sheet.opening .sheet { animation: sheetIn .5s cubic-bezier(.2,1.25,.35,1); }
+#sheet.opening .sheet-body > * { animation: fadeUp .45s both cubic-bezier(.2,1,.3,1); }
+#sheet.opening .sheet-body > *:nth-child(2) { animation-delay: .05s; } #sheet.opening .sheet-body > *:nth-child(3) { animation-delay: .1s; }
+#sheet.opening .sheet-body > *:nth-child(4) { animation-delay: .15s; } #sheet.opening .sheet-body > *:nth-child(n+5) { animation-delay: .2s; }
+@keyframes sheetIn { from { transform: translateY(100%); border-radius: 40px 40px 0 0; } to { transform: translateY(0); border-radius: 0; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+#app.enter > * { animation: fadeUp .5s both cubic-bezier(.2,1,.3,1); }
+#app.enter > *:nth-child(2) { animation-delay: .05s; } #app.enter > *:nth-child(3) { animation-delay: .1s; }
+#app.enter > *:nth-child(4) { animation-delay: .15s; } #app.enter > *:nth-child(n+5) { animation-delay: .2s; }
+#app.enter .row { animation: fadeUp .45s both cubic-bezier(.2,1,.3,1); }
+#app.enter .row:nth-child(2) { animation-delay: .25s; } #app.enter .row:nth-child(3) { animation-delay: .3s; } #app.enter .row:nth-child(4) { animation-delay: .35s; }
+.pad .act { animation: padIn .6s both cubic-bezier(.2,1.4,.4,1); }
+.pad.calm .act { animation: none; }
+.pad .act:nth-child(2) { animation-delay: .06s; } .pad .act:nth-child(3) { animation-delay: .12s; } .pad .act:nth-child(4) { animation-delay: .18s; } .pad .act:nth-child(5) { animation-delay: .24s; }
+@keyframes padIn { from { opacity: 0; transform: translateY(40px) scale(.9); } }
+.undo:not([hidden]) { animation: undoIn .45s cubic-bezier(.2,1.4,.4,1); }
+@keyframes undoIn { from { opacity: 0; transform: translateY(30px) scale(.9); } }
+.undo .bun { width: 34px; height: 34px; flex: none; }
+.toast:not([hidden]) { animation: toastIn .4s cubic-bezier(.2,1.5,.4,1); }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, -16px) scale(.9); } to { transform: translate(-50%, 0); } }
+.particle { position: fixed; z-index: 50; pointer-events: none; width: 26px; height: 26px; left: 0; top: 0; }
+.particle svg { width: 100%; height: 100%; }
+.empty-bun { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 12px 18px; text-align: center; color: var(--muted); }
+.empty-bun svg { width: 120px; height: 120px; animation: peek 3s ease-in-out infinite; }
+.row .ic { transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+.row:active .ic { transform: scale(1.2) rotate(-10deg); }
+.clk, .bigclock { font-family: var(--font-body) !important; letter-spacing: .02em; }
+.side-btn.on .t { font-weight: 700; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
@@ -216,8 +298,32 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
     swap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 4l3 3-3 3M20 7H8M7 20l-3-3 3-3M4 17h12"/></svg>',
     trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
     circle: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>',
-    half: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg>'
+    half: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5l2.6 7.9 7.9 2.6-7.9 2.6L12 22.5l-2.6-7.9L1.5 12l7.9-2.6z"/></svg>',
+    carrot: '<svg viewBox="0 0 24 24"><path d="M4 21l9.5-9.5c1.6 1 3.7.7 5-.7l-1.4-1.4c1.6-1.4 2.6-3.4 2.4-5.4-2 0-4 .9-5.4 2.4l-1.4-1.4c-1.4 1.3-1.7 3.4-.7 5L3 19z" fill="#f28c38"/><path d="M15.5 6.5c1-2 3-3.5 5-3.5 0 2-1.5 4-3.5 5M14 5c0-1.8 1-3.4 2.5-4" stroke="#3fae6a" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    paw: '<svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="6" cy="10" rx="2.2" ry="2.8"/><ellipse cx="10" cy="6" rx="2.2" ry="2.8"/><ellipse cx="14.5" cy="6" rx="2.2" ry="2.8"/><ellipse cx="18.5" cy="10" rx="2.2" ry="2.8"/><path d="M12.2 11c3 0 6 3.6 6 6.2 0 2.2-2 2.8-3.4 2.3-1-.4-1.8-.6-2.6-.6s-1.6.2-2.6.6C8.2 20 6.2 19.4 6.2 17.2 6.2 14.6 9.2 11 12.2 11z"/></svg>',
+    diaper: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 6h20v4c0 5.5-4.5 10-10 10S2 15.5 2 10z" opacity=".95"/><path d="M5 9h3M16 9h3" stroke="var(--surface)" stroke-width="2" stroke-linecap="round"/></svg>'
   };
+  // The bunny mascot. mood: "happy" | "sleep" | "wow"
+  function bunny(mood) {
+    const eyes = mood === "sleep"
+      ? '<path d="M42 74q6 5 12 0M66 74q6 5 12 0" stroke="var(--bun-ink)" stroke-width="3.2" fill="none" stroke-linecap="round"/>'
+      : mood === "wow"
+      ? '<circle cx="48" cy="72" r="6" fill="var(--bun-ink)"/><circle cx="72" cy="72" r="6" fill="var(--bun-ink)"/><circle cx="50" cy="70" r="2.2" fill="#fff"/><circle cx="74" cy="70" r="2.2" fill="#fff"/>'
+      : '<circle cx="48" cy="73" r="4.6" fill="var(--bun-ink)"/><circle cx="72" cy="73" r="4.6" fill="var(--bun-ink)"/><circle cx="49.6" cy="71.4" r="1.6" fill="#fff"/><circle cx="73.6" cy="71.4" r="1.6" fill="#fff"/>';
+    const mouth = mood === "wow" ? '<ellipse cx="60" cy="90" rx="3.5" ry="4.5" fill="var(--bun-ink)"/>'
+      : '<path d="M54 86q3 4 6 0q3 4 6 0" stroke="var(--bun-ink)" stroke-width="2.4" fill="none" stroke-linecap="round"/>';
+    const zz = mood === "sleep" ? '<text class="zz" x="88" y="40" font-size="16" font-weight="800" fill="var(--sleep)">z</text><text class="zz" x="98" y="26" font-size="12" font-weight="800" fill="var(--sleep)">z</text>' : "";
+    return '<svg viewBox="0 0 120 120" aria-hidden="true"><g class="ears">' +
+      '<ellipse cx="42" cy="34" rx="12" ry="30" transform="rotate(-12 42 34)" fill="var(--bun)" stroke="var(--bun-line)" stroke-width="2"/>' +
+      '<ellipse cx="42" cy="36" rx="6" ry="21" transform="rotate(-12 42 36)" fill="var(--bun-in)"/>' +
+      '<ellipse cx="78" cy="34" rx="12" ry="30" transform="rotate(12 78 34)" fill="var(--bun)" stroke="var(--bun-line)" stroke-width="2"/>' +
+      '<ellipse cx="78" cy="36" rx="6" ry="21" transform="rotate(12 78 36)" fill="var(--bun-in)"/></g>' +
+      '<ellipse cx="60" cy="80" rx="38" ry="33" fill="var(--bun)" stroke="var(--bun-line)" stroke-width="2"/>' +
+      '<circle cx="38" cy="86" r="6" fill="var(--cheek)" opacity=".7"/><circle cx="82" cy="86" r="6" fill="var(--cheek)" opacity=".7"/>' +
+      eyes + '<path d="M56.5 80h7l-3.5 4z" fill="var(--bun-in)"/>' + mouth + zz + '</svg>';
+  }
+  const PHRASES = ["أنتِ تقومين بعمل رائع", "خذي نفساً عميقاً واشربي كوب ماء", "مالك محظوظ بأمٍّ مثلكِ", "كل رضعة هي حب", "التعب طبيعي، وأنتِ قوية", "لا تنسي أن ترتاحي قليلاً", "خطوة خطوة، وكل شيء بخير"];
 
   // ---------- Storage (on this phone only) ----------
   const KEY = "malik-care-v1", UKEY = "malik-care-undo";
@@ -245,7 +351,34 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
     fn();
     save(); saveUndo();
     showUndo(label);
+    celebrate();
   }
+  // Tiny burst of hearts, stars and carrots from where she tapped.
+  let tapX = innerWidth / 2, tapY = innerHeight - 120;
+  const reduceMotion = () => !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  function celebrate(big) {
+    hopNext = true;
+    if (reduceMotion() || !document.body.animate) return;
+    const shapes = [I.heart, I.star, I.carrot, I.paw, I.heart, I.star];
+    const colors = ["var(--nursing)", "var(--bottle)", "var(--sleep)", "var(--diaper)", "var(--pump)"];
+    const n = big ? 22 : 12;
+    for (let i = 0; i < n; i++) {
+      const el = document.createElement("span");
+      el.className = "particle"; el.innerHTML = shapes[i % shapes.length];
+      el.style.color = colors[i % colors.length];
+      document.body.appendChild(el);
+      const ang = (-Math.PI / 2) + (Math.random() - 0.5) * Math.PI * 1.3;
+      const dist = 90 + Math.random() * (big ? 220 : 140);
+      const dx = Math.cos(ang) * dist, dy = Math.sin(ang) * dist;
+      const size = 0.5 + Math.random() * 0.7, rot = (Math.random() - 0.5) * 120;
+      el.animate([
+        { transform: "translate(" + (tapX - 13) + "px," + (tapY - 13) + "px) scale(.2)", opacity: 1 },
+        { transform: "translate(" + (tapX - 13 + dx * 0.7) + "px," + (tapY - 13 + dy * 0.7) + "px) scale(" + size + ") rotate(" + rot / 2 + "deg)", opacity: 1, offset: 0.6 },
+        { transform: "translate(" + (tapX - 13 + dx) + "px," + (tapY - 13 + dy + 40) + "px) scale(" + size * 0.8 + ") rotate(" + rot + "deg)", opacity: 0 }
+      ], { duration: 900 + Math.random() * 500, easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => el.remove();
+    }
+  }
+  let hopNext = false, enterNext = true;
   function undo() {
     const last = undoStack.pop(); if (!last) return;
     try { S = normalize(JSON.parse(last.data)); } catch (e) { return; }
@@ -333,6 +466,7 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
   const CONTENT = { breastMilk: "حليب الأم", formula: "حليب صناعي" };
   const DKIND = { wet: "مبلل", dirty: "متسخ", mixed: "مبلل ومتسخ" };
   const DICON = { wet: I.drop, dirty: I.circle, mixed: I.half };
+  const TITLE_ICON = { nursing: I.heart, bottle: I.bottle, pump: I.pump, diaper: I.diaper, log: I.paw, settings: I.carrot, addsleep: I.moon, edit: I.paw };
   const COLORS = [
     ["yellow", "أصفر", "#e8c547"], ["green", "أخضر", "#6b8e3d"], ["brown", "بني", "#8b5a2b"],
     ["black", "أسود", "#222222"], ["red", "أحمر", "#c0392b"], ["pale", "أبيض أو شاحب", "#ede8da"]
@@ -393,7 +527,7 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
   }
   function showUndo(label) {
     const el = document.getElementById("undo");
-    el.innerHTML = '<span>' + esc(label) + '</span><button data-act="undo">' + I.undo + 'تراجع</button>';
+    el.innerHTML = '<span class="bun">' + bunny("happy") + '</span><span>' + esc(label) + '</span><button data-act="undo">' + I.undo + 'تراجع</button>';
     el.hidden = false; placeUndo();
     clearTimeout(undoTimer); undoTimer = setTimeout(hideUndo, 7000);
   }
@@ -444,7 +578,8 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
     const lastFeed = S.feeds.filter((f) => f.kind !== "pump").sort((a, b) => b.start - a.start)[0];
     const lastSide = lastNursingSide(false);
     const age = ageText();
-    let h = '<header class="head"><div class="who">' +
+    const mood = sl ? "sleep" : "happy";
+    let h = '<header class="head"><button class="mascot' + (sl ? " sleep" : "") + (hopNext ? " hop" : "") + '" data-act="bunny" aria-label="أرنوب">' + bunny(mood) + '</button><div class="who">' +
       '<p class="hello">' + esc(greeting()) + '</p>' +
       '<h1 class="baby">' + esc(S.settings.baby) + '</h1>' +
       (age ? '<p class="age">' + age + '</p>' : '') + '</div>' +
@@ -457,48 +592,55 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
         '<small>اضغطي لفتح المؤقت</small></span><span class="clock num clk" data-tick="nurse">' + clock(totalSecs(nurse, t)) + '</span></button>';
     }
     if (sl) {
-      h += '<div class="live tintbg" style="--c:var(--sleep)"><span class="dot"></span><span class="txt"><b>' + esc(S.settings.baby) + ' نائم</b>' +
+      h += '<div class="live tintbg" style="--c:var(--sleep)"><span class="stars">' + I.star + I.star + I.star + '</span><span class="txt"><b>' + esc(S.settings.baby) + ' نائم</b>' +
         '<small>منذ ' + tm(sl.start) + '</small></span><span class="clock num clk" data-tick="sleep">' + clock((t - sl.start) / 1000) + '</span></div>';
     }
     if (!nurse) {
-      h += '<section class="hero tintbg"><p class="k">آخر رضعة</p><p class="v num">' + (lastFeed ? ago(lastFeed.start) : "لم تُسجَّل بعد") + '</p>' +
+      h += '<section class="hero tintbg"><span class="peek">' + bunny(lastFeed && now() - lastFeed.start > 3 * 3600000 ? "wow" : "happy") + '</span><p class="k">آخر رضعة</p><p class="v num">' + (lastFeed ? ago(lastFeed.start) : "لم تُسجَّل بعد") + '</p>' +
         (lastSide ? '<p class="s">الجهة التالية: <span class="pill">' + SIDE[other(lastSide)] + '</span></p>' : '<p class="s">اضغطي «رضاعة» بالأسفل للبدء</p>') + '</section>';
     }
     h += '<section class="today" aria-label="ملخص اليوم">' +
-      '<div><b class="num">' + dg(st.feeds.length) + '</b><span>رضعات اليوم</span><em>' + (st.bottle > 0 ? vol(st.bottle) : "&nbsp;") + '</em></div>' +
-      '<div><b class="num">' + dg(st.diapers.length) + '</b><span>حفاضات</span><em>' + dg(st.wet) + ' مبلل · ' + dg(st.dirty) + ' متسخ</em></div>' +
-      '<div><b class="num">' + (st.sleep >= 60 ? dur(st.sleep) : dg(0)) + '</b><span>نوم اليوم</span><em>&nbsp;</em></div></section>';
+      '<div style="--c:var(--nursing)"><i>' + I.heart + '</i><b class="num">' + dg(st.feeds.length) + '</b><span>رضعات اليوم</span><em>' + (st.bottle > 0 ? vol(st.bottle) : "&nbsp;") + '</em></div>' +
+      '<div style="--c:var(--diaper)"><i>' + I.diaper + '</i><b class="num">' + dg(st.diapers.length) + '</b><span>حفاضات</span><em>' + dg(st.wet) + ' مبلل · ' + dg(st.dirty) + ' متسخ</em></div>' +
+      '<div style="--c:var(--sleep)"><i>' + I.moon + '</i><b class="num">' + (st.sleep >= 60 ? dur(st.sleep) : dg(0)) + '</b><span>نوم اليوم</span><em>&nbsp;</em></div></section>';
 
     const recent = allItems().slice(0, 4);
     h += '<div class="sec"><h3>آخر ما سجّلتِه</h3><button data-act="open" data-sheet="log">كل السجل</button></div>';
     h += recent.length ? '<div class="rows">' + recent.map((it) => rowHtml(it, true)).join("") + '</div>'
-      : '<p class="empty">لا شيء بعد. ابدئي بالأزرار الكبيرة في الأسفل، وأي خطأ يمكن التراجع عنه.</p>';
+      : '<div class="empty-bun">' + bunny("wow") + '<b>أرنوب ينتظر أول تسجيل!</b><span>ابدئي بالأزرار الكبيرة في الأسفل، وأي خطأ يمكن التراجع عنه.</span></div>';
     if (undoStack.length) h += '<button class="ghost" data-act="undo">' + I.undo + 'تراجع عن: ' + esc(undoStack[undoStack.length - 1].label) + '</button>';
-    document.getElementById("app").innerHTML = h;
+    const app = document.getElementById("app");
+    app.innerHTML = h;
+    if (enterNext) { app.classList.add("enter"); setTimeout(() => app.classList.remove("enter"), 900); }
+    hopNext = false;
 
     document.getElementById("pad").innerHTML = '<div class="pad-inner">' +
       '<button class="act" style="--c:var(--nursing)" data-act="open" data-sheet="nursing">' + I.heart + (nurse ? "المؤقت" : "رضاعة") + '</button>' +
-      '<button class="act" style="--c:var(--diaper)" data-act="open" data-sheet="diaper">' + I.drop + 'حفاض</button>' +
+      '<button class="act" style="--c:var(--diaper)" data-act="open" data-sheet="diaper">' + I.diaper + 'حفاض</button>' +
       '<button class="act" style="--c:var(--sleep)" data-act="toggle-sleep">' + (sl ? I.sun + "استيقظ" : I.moon + "نام") + '</button>' +
       '<button class="act small" style="--c:var(--bottle)" data-act="open" data-sheet="bottle">' + I.bottle + 'رضّاعة</button>' +
       '<button class="act small" style="--c:var(--pump)" data-act="open" data-sheet="pump">' + I.pump + 'شفط</button></div>';
+    const pad = document.getElementById("pad");
+    if (!enterNext) pad.classList.add("calm"); else { pad.classList.remove("calm"); setTimeout(() => pad.classList.add("calm"), 900); }
+    enterNext = false;
     if (!document.getElementById("undo").hidden) placeUndo();
   }
 
   // ---------- Sheets ----------
-  let sheet = null, D = {}, confirmKey = null, confirmTimer;
+  let sheet = null, D = {}, confirmKey = null, confirmTimer, openTimer;
 
   function openSheet(name, params) {
     sheet = Object.assign({ name }, params || {});
     D = initDraft(sheet); hideUndo();
     const el = document.getElementById("sheet");
-    el.innerHTML = ""; renderSheet(); el.hidden = false;
+    el.innerHTML = ""; el.classList.add("opening"); renderSheet(); el.hidden = false;
+    clearTimeout(openTimer); openTimer = setTimeout(() => el.classList.remove("opening"), 700);
     if (!document.getElementById("undo").hidden) placeUndo();
   }
   function closeSheet() {
     sheet = null; D = {}; confirmKey = null;
     const el = document.getElementById("sheet"); el.hidden = true; el.innerHTML = "";
-    renderHome();
+    enterNext = true; renderHome();
   }
   function initDraft(s) {
     switch (s.name) {
@@ -533,7 +675,7 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
   }
 
   function frame(title, body, foot) {
-    return '<div class="sheet"><div class="sheet-bar"><span class="side"><button data-act="close">' + (sheet.from === "log" ? "رجوع" : "إغلاق") + '</button></span><h2>' + title + '</h2><span class="side"></span></div>' +
+    return '<div class="sheet"><div class="sheet-bar"><span class="side"><button data-act="close">' + (sheet.from === "log" ? "رجوع" : "إغلاق") + '</button></span><h2>' + (TITLE_ICON[sheet.name] || "") + '<span>' + title + '</span></h2><span class="side"></span></div>' +
       '<div class="sheet-body">' + body + '</div>' + (foot ? '<div class="sheet-foot">' + foot + '</div>' : '') + '</div>';
   }
   const saveBtn = (c, label, disabled) => '<button class="big" style="--c:' + c + '" data-act="save"' + (disabled ? " disabled" : "") + '>' + I.check + (label || "حفظ") + '</button>';
@@ -764,12 +906,18 @@ textarea { width: 100%; min-height: 80px; background: var(--surface); border: 1p
     }
   }
 
+  document.addEventListener("pointerdown", (ev) => { tapX = ev.clientX; tapY = ev.clientY; }, { passive: true });
   document.addEventListener("click", (ev) => {
     const btn = ev.target.closest("[data-act]"); if (!btn || btn.disabled) return;
     const act = btn.dataset.act;
     if (act !== "confirm" && confirmKey) confirmKey = null;
     switch (act) {
       case "undo": return undo();
+      case "bunny": {
+        btn.classList.remove("hop"); void btn.offsetWidth; btn.classList.add("hop");
+        toast(PHRASES[Math.floor(Math.random() * PHRASES.length)]); celebrate(true); hopNext = false;
+        return;
+      }
       case "open": return openSheet(btn.dataset.sheet, { from: sheet ? sheet.name : "home" });
       case "close": return sheet && sheet.from === "log" ? openSheet("log", { from: "home" }) : closeSheet();
       case "toggle-night":
