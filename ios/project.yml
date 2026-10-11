@@ -1,0 +1,26 @@
+# Backup only: regenerate the Xcode project with `xcodegen` if MalikCare.xcodeproj ever fails to open.
+name: MalikCare
+options:
+  bundleIdPrefix: com.rashad
+  developmentLanguage: ar
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  MalikCare:
+    type: application
+    platform: iOS
+    sources: [MalikCare]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.rashad.malikcare
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "رعاية مالك"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        TARGETED_DEVICE_FAMILY: 1
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: 1
+        SWIFT_VERSION: "5.0"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
